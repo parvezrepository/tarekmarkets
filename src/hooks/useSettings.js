@@ -10,7 +10,11 @@ export const useSettings = () => {
     announcement: '',
     usd_rate: 120,
     testimonials: [],
-    faqs: []
+    faqs: [],
+    facebook: '',
+    twitter: '',
+    instagram: '',
+    youtube: ''
   });
   const [loading, setLoading] = useState(true);
 

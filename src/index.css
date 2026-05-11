@@ -87,6 +87,11 @@
 ::-webkit-scrollbar-thumb { @apply bg-slate-200 dark:bg-slate-800 transition-colors; }
 ::-webkit-scrollbar-thumb:hover { @apply bg-slate-300 dark:bg-slate-700; }
 
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { @apply bg-slate-800 rounded-full transition-colors; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { @apply bg-cyan-500; }
+
 /* Responsive Overrides & Breakpoints */
 
 /* Fluid Typography Utilities */

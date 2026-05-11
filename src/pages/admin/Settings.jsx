@@ -31,6 +31,10 @@ const Settings = () => {
     bkash: '01700-000000',
     nagad: '01700-000000',
     announcement: '🚀 Flash Sale: Get 20% Off on all MT4 Indicators! Use code DIGI20',
+    facebook: '',
+    twitter: '',
+    instagram: '',
+    youtube: '',
     testimonials: [
       { image: 'https://images.unsplash.com/photo-1611974714658-66d1456070bd?auto=format&fit=crop&q=80&w=800' },
       { image: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800' }
@@ -358,6 +362,56 @@ const Settings = () => {
                 <button className="w-full py-4 border-2 border-black text-black text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all">
                   Update Branding
                 </button>
+              </div>
+            </div>
+          </section>
+
+          {/* Social Links */}
+          <section className="bg-white border border-slate-200 shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center space-x-3">
+              <Globe size={20} className="text-violet-600" />
+              <h3 className="font-black text-black uppercase tracking-widest text-xs">Social Presence</h3>
+            </div>
+            <div className="p-8 space-y-4">
+              <div className="space-y-2">
+                <label className="text-[9px] font-black uppercase tracking-widest text-slate-400">Facebook URL</label>
+                <input 
+                  type="text" 
+                  value={settings.facebook || ''}
+                  onChange={(e) => setSettings({...settings, facebook: e.target.value})}
+                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all" 
+                  placeholder="https://facebook.com/..."
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[9px] font-black uppercase tracking-widest text-slate-400">Twitter / X URL</label>
+                <input 
+                  type="text" 
+                  value={settings.twitter || ''}
+                  onChange={(e) => setSettings({...settings, twitter: e.target.value})}
+                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all" 
+                  placeholder="https://twitter.com/..."
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[9px] font-black uppercase tracking-widest text-slate-400">Instagram URL</label>
+                <input 
+                  type="text" 
+                  value={settings.instagram || ''}
+                  onChange={(e) => setSettings({...settings, instagram: e.target.value})}
+                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all" 
+                  placeholder="https://instagram.com/..."
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[9px] font-black uppercase tracking-widest text-slate-400">YouTube URL</label>
+                <input 
+                  type="text" 
+                  value={settings.youtube || ''}
+                  onChange={(e) => setSettings({...settings, youtube: e.target.value})}
+                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all" 
+                  placeholder="https://youtube.com/..."
+                />
               </div>
             </div>
           </section>

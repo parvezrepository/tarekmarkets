@@ -85,7 +85,7 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500 selection:text-black">
+    <div className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500 selection:text-black overflow-x-hidden">
       {/* Premium Header */}
       <nav className="fixed top-0 w-full z-50 bg-[#020617]/80 backdrop-blur-md border-b border-white/5 py-6 px-6 md:px-12 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-3 group">
@@ -137,7 +137,7 @@ const ProductDetails = () => {
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <div className="flex flex-wrap gap-4 pt-4 w-full">
               {(() => {
                 const productUrl = typeof window !== 'undefined' ? window.location.href : '';
                 const messageText = `Hello! I want to buy ${product.name} for ৳${product.price}.\n\nProduct Link: ${productUrl}`;
@@ -154,7 +154,7 @@ const ProductDetails = () => {
                       href={telegramUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center space-x-3 bg-[#0088cc] px-10 py-5 font-black uppercase tracking-widest text-[11px] hover:shadow-xl hover:shadow-[#0088cc]/20 transition-all text-white"
+                      className="flex-1 min-w-[140px] flex items-center justify-center space-x-3 bg-[#0088cc] px-6 py-5 font-black uppercase tracking-widest text-[11px] hover:shadow-xl hover:shadow-[#0088cc]/20 transition-all text-white"
                     >
                       <Send size={18} />
                       <span>Telegram</span>
@@ -163,7 +163,7 @@ const ProductDetails = () => {
                       href={whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center space-x-3 bg-[#25d366] px-10 py-5 font-black uppercase tracking-widest text-[11px] hover:shadow-xl hover:shadow-[#25d366]/20 transition-all text-white"
+                      className="flex-1 min-w-[140px] flex items-center justify-center space-x-3 bg-[#25d366] px-6 py-5 font-black uppercase tracking-widest text-[11px] hover:shadow-xl hover:shadow-[#25d366]/20 transition-all text-white"
                     >
                       <MessageCircle size={18} />
                       <span>WhatsApp</span>
@@ -173,7 +173,7 @@ const ProductDetails = () => {
               })()}
               <button 
                 onClick={() => setIsModalOpen(true)}
-                className="flex-grow flex items-center justify-center space-x-3 bg-cyan-500 text-black px-10 py-5 font-black uppercase tracking-widest text-[11px] hover:bg-white transition-all shadow-xl shadow-cyan-500/20"
+                className="w-full sm:flex-grow min-w-[200px] flex items-center justify-center space-x-3 bg-cyan-500 text-black px-8 py-5 font-black uppercase tracking-widest text-[11px] hover:bg-white transition-all shadow-xl shadow-cyan-500/20"
               >
                 <ShoppingCart size={18} />
                 <span>Get Access Now</span>
@@ -183,38 +183,52 @@ const ProductDetails = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="space-y-16 mb-32">
-          <div className="flex items-center space-x-6">
-            <h2 className="text-3xl font-black uppercase tracking-tighter">Features</h2>
-            <div className="h-px flex-grow bg-gradient-to-r from-cyan-500/50 to-transparent" />
-          </div>
+        {product.features?.filter(f => !f.is_html_details)?.length > 0 && (
+          <div className="space-y-16 mb-32">
+            <div className="flex items-center space-x-6">
+              <h2 className="text-3xl font-black uppercase tracking-tighter">Features</h2>
+              <div className="h-px flex-grow bg-gradient-to-r from-cyan-500/50 to-transparent" />
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {product.features?.map((feature, idx) => {
-              const Icon = IconMap[feature.icon] || Zap;
-              return (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="bg-[#0a0a0a] border border-white/5 p-8 group hover:border-cyan-500/50 transition-all duration-500"
-                >
-                  <div className="w-12 h-12 bg-cyan-500/10 flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-all duration-500">
-                    <Icon size={20} className="text-cyan-500 group-hover:text-black transition-all" />
-                  </div>
-                  <h3 className="text-sm font-black text-white uppercase tracking-tight mb-3 group-hover:text-cyan-500 transition-colors">
-                    {feature.title}
-                  </h3>
-                  <p className="text-[11px] text-slate-300 font-medium leading-relaxed group-hover:text-slate-300 transition-colors">
-                    {feature.description}
-                  </p>
-                </motion.div>
-              );
-            })}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {product.features?.filter(f => !f.is_html_details).map((feature, idx) => {
+                const Icon = IconMap[feature.icon] || Zap;
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="bg-[#0a0a0a] border border-white/5 p-8 group hover:border-cyan-500/50 transition-all duration-500"
+                  >
+                    <div className="w-12 h-12 bg-cyan-500/10 flex items-center justify-center mb-6 group-hover:bg-cyan-500 transition-all duration-500">
+                      <Icon size={20} className="text-cyan-500 group-hover:text-black transition-all" />
+                    </div>
+                    <h3 className="text-sm font-black text-white uppercase tracking-tight mb-3 group-hover:text-cyan-500 transition-colors">
+                      {feature.title}
+                    </h3>
+                    <p className="text-[11px] text-slate-300 font-medium leading-relaxed group-hover:text-slate-300 transition-colors">
+                      {feature.description}
+                    </p>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Extended Product Details HTML */}
+        {product.features?.find(f => f.is_html_details)?.content && (
+          <div className="mb-32 w-full">
+            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 md:p-8 max-h-[85vh] overflow-y-auto overflow-x-auto custom-scrollbar w-full">
+              <div 
+                className="prose prose-invert prose-cyan max-w-none w-full prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight prose-a:text-cyan-500 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                dangerouslySetInnerHTML={{ __html: product.features.find(f => f.is_html_details).content }} 
+              />
+            </div>
+          </div>
+        )}
 
         {/* Platforms Section */}
         <div className="bg-[#0a0a0a] border border-white/5 p-12 md:p-20 text-center space-y-16 relative overflow-hidden">

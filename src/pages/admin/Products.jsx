@@ -43,6 +43,7 @@ const Products = () => {
     features: [] // Array of { icon: '', title: '', description: '' }
   };
   const [formData, setFormData] = useState(initialForm);
+  const [extendedHtml, setExtendedHtml] = useState('');
 
   const fetchProducts = async () => {
     try {
@@ -61,7 +62,12 @@ const Products = () => {
   }, []);
 
   const handleEdit = (product) => {
-    setFormData(product);
+    const htmlFeature = product.features?.find(f => f.is_html_details);
+    setExtendedHtml(htmlFeature ? htmlFeature.content : '');
+    
+    const cleanedFeatures = product.features?.filter(f => !f.is_html_details) || [];
+    setFormData({ ...product, features: cleanedFeatures });
+    
     setEditingId(product.id);
     setIsEditMode(true);
     setIsModalOpen(true);
@@ -69,6 +75,7 @@ const Products = () => {
 
   const handleAdd = () => {
     setFormData(initialForm);
+    setExtendedHtml('');
     setIsEditMode(false);
     setEditingId(null);
     setIsModalOpen(true);
@@ -132,6 +139,10 @@ const Products = () => {
     const method = isEditMode ? 'PUT' : 'POST';
 
     const payload = { ...formData };
+    if (extendedHtml && extendedHtml.trim() !== '') {
+      payload.features = [...(payload.features || []), { is_html_details: true, content: extendedHtml }];
+    }
+    
     delete payload.id;
     delete payload.created_at;
     delete payload.rating;
@@ -428,6 +439,19 @@ const Products = () => {
                     .dark .ql-snow .ql-picker { color: #94a3b8; }
                     .dark .ql-editor { color: #f8fafc; }
                   `}</style>
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center justify-between">
+                    <span>Extended Details (Raw HTML)</span>
+                    <span className="text-[9px] text-cyan-500">Optional: For custom layout below features</span>
+                  </label>
+                  <textarea 
+                    value={extendedHtml}
+                    onChange={(e) => setExtendedHtml(e.target.value)}
+                    placeholder="<p>Paste your custom HTML details here...</p>" 
+                    rows="4"
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-6 py-4 text-sm font-bold outline-none focus:border-black dark:focus:border-white transition-all text-black dark:text-white font-mono" 
+                  />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
