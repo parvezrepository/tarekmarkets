@@ -120,7 +120,7 @@ const ProductDetails = () => {
             className="space-y-8"
           >
             <div>
-              <h1 className="text-3xl md:text-5xl font-black font-heading leading-[1.1] mb-3 uppercase tracking-tighter text-white">
+              <h1 className="text-2xl md:text-4xl font-black font-heading leading-[1.1] mb-3 uppercase tracking-tighter text-white">
                 {product.name}
               </h1>
               <div 
