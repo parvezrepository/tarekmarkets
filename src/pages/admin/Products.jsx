@@ -44,6 +44,7 @@ const Products = () => {
   };
   const [formData, setFormData] = useState(initialForm);
   const [extendedHtml, setExtendedHtml] = useState('');
+  const [productTags, setProductTags] = useState('Professional Grade, Hyper-realistic, All Devices');
 
   const fetchProducts = async () => {
     try {
@@ -64,8 +65,11 @@ const Products = () => {
   const handleEdit = (product) => {
     const htmlFeature = product.features?.find(f => f.is_html_details);
     setExtendedHtml(htmlFeature ? htmlFeature.content : '');
+
+    const tagsFeature = product.features?.find(f => f.is_tags_list);
+    setProductTags(tagsFeature ? tagsFeature.tags : 'Professional Grade, Hyper-realistic, All Devices');
     
-    const cleanedFeatures = product.features?.filter(f => !f.is_html_details) || [];
+    const cleanedFeatures = product.features?.filter(f => !f.is_html_details && !f.is_tags_list) || [];
     setFormData({ ...product, features: cleanedFeatures });
     
     setEditingId(product.id);
@@ -76,6 +80,7 @@ const Products = () => {
   const handleAdd = () => {
     setFormData(initialForm);
     setExtendedHtml('');
+    setProductTags('Professional Grade, Hyper-realistic, All Devices');
     setIsEditMode(false);
     setEditingId(null);
     setIsModalOpen(true);
@@ -141,6 +146,9 @@ const Products = () => {
     const payload = { ...formData };
     if (extendedHtml && extendedHtml.trim() !== '') {
       payload.features = [...(payload.features || []), { is_html_details: true, content: extendedHtml }];
+    }
+    if (productTags && productTags.trim() !== '') {
+      payload.features = [...(payload.features || []), { is_tags_list: true, tags: productTags }];
     }
     
     delete payload.id;
@@ -404,6 +412,16 @@ const Products = () => {
                       <option value="NEW">NEW</option>
                       <option value="SALE">SALE</option>
                     </select>
+                  </div>
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Product Tags (Comma Separated)</label>
+                    <input 
+                      type="text" 
+                      value={productTags}
+                      onChange={(e) => setProductTags(e.target.value)}
+                      placeholder="Professional Grade, Hyper-realistic" 
+                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-6 py-4 text-sm font-bold outline-none focus:border-black dark:focus:border-white transition-all text-black dark:text-white" 
+                    />
                   </div>
                   <div className="space-y-3">
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Price (BDT)</label>

@@ -130,11 +130,17 @@ const ProductDetails = () => {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              {['Professional Grade', 'Hyper-realistic', 'All Devices'].map((tag) => (
-                <span key={tag} className="px-5 py-2 bg-[#0a0a0a] border border-cyan-500/30 text-cyan-400 text-[9px] font-black uppercase tracking-widest rounded-full">
-                  {tag}
-                </span>
-              ))}
+              {(() => {
+                const tagsFeature = product.features?.find(f => f.is_tags_list);
+                const tagsString = tagsFeature ? tagsFeature.tags : 'Professional Grade, Hyper-realistic, All Devices';
+                const tagsArray = tagsString.split(',').map(t => t.trim()).filter(Boolean);
+                
+                return tagsArray.map((tag) => (
+                  <span key={tag} className="px-5 py-2 bg-[#0a0a0a] border border-cyan-500/30 text-cyan-400 text-[9px] font-black uppercase tracking-widest rounded-full">
+                    {tag}
+                  </span>
+                ));
+              })()}
             </div>
 
             <div className="flex flex-wrap gap-4 pt-4 w-full">
