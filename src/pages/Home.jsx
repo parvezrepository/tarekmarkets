@@ -1,0 +1,307 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { products } from '../data/products';
+import ProductCard from '../components/product/ProductCard';
+import { ProductCardSkeleton } from '../components/shared/Skeleton';
+import { Link } from 'react-router-dom';
+import { 
+  ArrowRight, 
+  ShoppingBag, 
+  Plus, 
+  Minus, 
+  MessageCircle, 
+  Send, 
+  Smartphone,
+  ChevronRight,
+  ShieldCheck,
+  Zap,
+  HelpCircle,
+  X
+} from 'lucide-react';
+import BuyModal from '../components/shared/BuyModal';
+
+import ContactModal from '../components/shared/ContactModal';
+
+const FAQItem = ({ faq, isOpen, toggle }) => (
+  <div className="faq-item">
+    <button onClick={toggle} className="faq-trigger group py-4">
+      <span className="text-[11px] md:text-xs font-black uppercase tracking-wider group-hover:text-violet-600 transition-colors">{faq.question}</span>
+      {isOpen ? <Minus size={14} className="text-violet-600" /> : <Plus size={14} className="text-slate-300 group-hover:text-black transition-colors" />}
+    </button>
+    <div className={`faq-content ${isOpen ? 'max-h-96 pb-6' : 'max-h-0'}`}>
+      <p className="text-slate-500 font-medium text-[11px] leading-relaxed">
+        {faq.answer}
+      </p>
+    </div>
+  </div>
+);
+
+const Home = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [settings, setSettings] = useState({
+    testimonials: [],
+    faqs: [],
+    whatsapp: '',
+    telegram: ''
+  });
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
+  const [recentBuyer, setRecentBuyer] = useState('');
+  const [recentProduct, setRecentProduct] = useState('');
+
+  const buyers = [
+    'Aarav Hasan', 'Aisha Rahman', 'Fahim Hasan', 'Nusrat Jahan', 'Rakibul Islam', 'Samiha Noor', 'Tanvir Ahmed', 'Mim Akter', 
+    'Adnan Karim', 'Sadia Afrin', 'Mehedi Hasan', 'Zara Islam', 'Shadman Sakib', 'Tamanna Islam', 'Raihan Ahmed', 'Lamia Rahman', 
+    'Akib Hossain', 'Priya Sultana', 'Farhan Ahmed', 'Tanjila Akter', 'Hasan Mahmud', 'Maliha Noor', 'Jisan Karim', 'Sharmin Sultana', 
+    'Nafis Ahmed', 'Tanha Noor', 'Saif Rahman', 'Maria Sultana', 'Omar Faruk', 'Anika Tabassum', 'Rayhan Chowdhury', 'Rukaiya Rahman', 
+    'Imran Hossain', 'Afsana Mimi', 'Siam Hasan', 'Habiba Noor', 'Mahadi Hasan', 'Sana Jahan', 'Ridwan Hasan', 'Faria Sultana', 
+    'Arif Mahmud', 'Sumaiya Rahman', 'Towsif Karim', 'Nafisa Islam', 'Mahin Ahmed', 'Naima Jannat', 'Rakib Hasan', 'Afifa Noor', 
+    'Rashed Karim', 'Bushra Jahan', 'Zayan Hossain', 'Israt Jahan', 'Samiul Islam', 'Noshin Tabassum', 'Shohan Ahmed', 'Raisa Islam', 
+    'Minhaj Uddin', 'Jannatul Ferdous', 'Sabbir Ahmed', 'Alifa Tasnim', 'Tahmid Rahman', 'Safa Tasnim', 'Fardin Islam', 'Rima Akter', 
+    'Asif Iqbal', 'Tasmia Rahman', 'Zubair Rahman', 'Ayesha Siddika', 'Nazmul Hasan', 'Tahsin Nawar', 'Miraj Hossain', 'Yasmin Akter', 
+    'Fahad Rahman', 'Mehazabin Chowdhury', 'Arman Hossain', 'Mahrin Islam', 'Naim Islam', 'Fatema Tuz Zahra', 'Wasif Rahman', 'Dilruba Akter', 
+    'Shihab Uddin', 'Samiha Noor', 'Parvez Ahmed', 'Rafia Jahan', 'Sajid Hasan', 'Humaira Islam', 'Yusuf Mahmud', 'Sadika Noor', 
+    'Tamim Iqbal', 'Maisha Rahman', 'Fuad Karim', 'Sabrina Islam', 'Emon Hasan', 'Chandni Sultana', 'Mizanur Rahman', 'Faiza Karim', 
+    'Ashikur Rahman', 'Lubaba Noor', 'Hridoy Hasan', 'Rumana Akter', 'Jubayer Rahman', 'Sayma Akter', 'Monir Hossain', 'Oyshee Rahman', 
+    'Nayeem Hasan', 'Fariha Noor', 'Sohel Rana', 'Nadia Afrin', 'Sakib Al Hasan', 'Shefa Tasnim', 'Abu Sayeed', 'Samira Jahan', 
+    'Iftekhar Ahmed', 'Kaniz Fatema', 'Badhon Ahmed', 'Elma Chowdhury', 'Mahmudul Hasan', 'Shanjida Akter', 'Rasel Ahmed', 'Tuba Jannat', 
+    'Rifat Karim', 'Sanjida Rahman', 'Murad Karim', 'Adiba Noor', 'Kamrul Hasan', 'Sharika Noor', 'Nafiz Hossain', 'Sumona Akter', 
+    'Labib Ahmed', 'Ayat Jannat', 'Alvi Rahman', 'Rahima Khatun', 'Belal Hossain', 'Neha Islam', 'Jamil Uddin', 'Hafsa Jahan', 
+    'Aslam Uddin', 'Naureen Jahan', 'Munim Hasan', 'Borsha Akter', 'Ovi Hasan', 'Roksana Yasmin', 'Moinul Islam', 'Arpita Sultana', 
+    'Sadiqur Rahman', 'Iffat Ara', 'Shawon Hasan', 'Dola Rahman', 'Morshed Alam', 'Mehjabin Noor', 'Salman Rahman', 'Tabassum Mim', 
+    'Ahmed Rafi', 'Ritu Sultana', 'Atikur Rahman', 'Mahjabin Akter', 'Sharif Hossain', 'Juthi Akter', 'Afnan Rahman', 'Promi Akter', 
+    'Habibur Rahman', 'Munira Sultana', 'Ishrak Ahmed', 'Nuzhat Tasnim', 'Jaber Alvi', 'Tasfia Rahman', 'Azmain Karim', 'Marium Islam', 
+    'Anisur Rahman', 'Afreen Jahan', 'Mahfuz Rahman', 'Anjum Ara'
+  ];
+  
+  const fallbackItems = ['Forex Auto Bot', 'News Filter EA', 'Gold Scalper', 'Trend Master'];
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
+        const data = await response.json();
+        setProducts(data);
+      } catch (err) { console.error(err); }
+      finally { setLoading(false); }
+    };
+
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/settings`);
+        const data = await response.json();
+        if (data && Object.keys(data).length > 0) {
+          setSettings(data);
+        }
+      } catch (err) { console.error(err); }
+    };
+
+    fetchProducts();
+    fetchSettings();
+
+    const interval = setInterval(() => {
+      const randomBuyer = buyers[Math.floor(Math.random() * buyers.length)];
+      setRecentBuyer(randomBuyer);
+      
+      // Use actual products if available, else fallback
+      setProducts(prevProducts => {
+        if (prevProducts.length > 0) {
+          const randomProduct = prevProducts[Math.floor(Math.random() * prevProducts.length)];
+          setRecentProduct(randomProduct.name);
+        } else {
+          setRecentProduct(fallbackItems[Math.floor(Math.random() * fallbackItems.length)]);
+        }
+        return prevProducts;
+      });
+
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 5000);
+    }, 15000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleBuy = (product) => {
+    setSelectedProduct(product);
+    setIsBuyModalOpen(true);
+  };
+
+  // Duplicate testimonials for seamless loop
+  const displayTestimonials = [...(settings.testimonials || []), ...(settings.testimonials || [])];
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {/* Vibe Hero Section */}
+      <section className="pt-8 pb-8">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative bg-[#0a0a0a] rounded-none p-10 md:p-16 overflow-hidden text-center"
+          >
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] aspect-square bg-violet-600/10 blur-[100px] rounded-full pointer-events-none" />
+            
+            <div className="relative z-10 max-w-4xl mx-auto">
+              <div className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-none mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-ping" />
+                <span className="text-[8px] font-black text-white uppercase tracking-[0.3em]">System Status: Operational</span>
+              </div>
+              
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-white leading-[1.1] mb-6 tracking-tighter uppercase">
+                Trade with <span className="text-violet-500">Precision</span>.
+              </h1>
+              <p className="text-sm md:text-base text-slate-400 font-medium mb-8 max-w-2xl mx-auto leading-relaxed">
+                Unlock professional-grade automation and indicators. Trusted by thousands.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <Link to="/shop" className="bg-white text-black px-8 py-4 font-black uppercase tracking-widest text-[10px] sm:text-[9px] hover:bg-violet-500 hover:text-white transition-all text-center">
+                   Explore Marketplace
+                </Link>
+                <button 
+                  onClick={() => setIsContactModalOpen(true)}
+                  className="bg-transparent border border-white/20 text-white px-8 py-4 font-black uppercase tracking-widest text-[10px] sm:text-[9px] hover:border-violet-500 hover:bg-violet-600/10 transition-all text-center"
+                >
+                  Join Community
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Featured Grid */}
+      <section className="py-16">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 text-center md:text-left">
+            <div>
+              <div className="text-[9px] font-black text-violet-600 uppercase tracking-widest mb-2 flex items-center justify-center md:justify-start">
+                 <div className="w-8 h-px bg-violet-600 mr-3" />
+                 Premium Selection
+              </div>
+              <h2 className="text-3xl font-black font-heading text-black dark:text-white uppercase tracking-tighter">
+                Most Popular Assets
+              </h2>
+            </div>
+            <Link to="/shop" className="btn-pro text-[9px]">
+              Explore All Products
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {loading ? (
+              [...Array(3)].map((_, i) => <ProductCardSkeleton key={i} />)
+            ) : (
+              products.slice(0, 3).map((product) => (
+                <ProductCard key={product.id} product={product} onBuy={handleBuy} />
+              ))
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Combined Proof & FAQ Section */}
+      <section className="py-24 border-y border-slate-100 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/20">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            
+            {/* Proof Gallery */}
+            <div className="overflow-hidden">
+              <div className="mb-10 text-center lg:text-left">
+                <div className="text-[10px] font-black text-violet-600 uppercase tracking-widest mb-3">Live Performance</div>
+                <h2 className="text-3xl font-black uppercase tracking-tighter text-black dark:text-white">Verified Proof Gallery</h2>
+              </div>
+              
+              <div className="relative">
+                <motion.div 
+                  className="flex gap-4"
+                  animate={{ x: ["0%", "-50%"] }}
+                  transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+                >
+                  {displayTestimonials.map((t, i) => (
+                    <div key={i} className="min-w-[280px] md:min-w-[320px] aspect-video bg-black overflow-hidden vibe-card">
+                      <img src={t.image} alt="Proof" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+                    </div>
+                  ))}
+                </motion.div>
+                {/* Gradient overlays for the carousel */}
+                <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-slate-50 dark:from-[#020617] to-transparent z-10" />
+                <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-slate-50 dark:from-[#020617] to-transparent z-10" />
+              </div>
+            </div>
+
+            {/* FAQ Section */}
+            <div>
+              <div className="mb-10 text-center lg:text-left">
+                <div className="text-[10px] font-black text-violet-600 uppercase tracking-widest mb-3">Support Center</div>
+                <h2 className="text-3xl font-black uppercase tracking-tighter text-black dark:text-white">Common Inquiries</h2>
+              </div>
+              
+              <div className="bg-white dark:bg-[#0a0a0a]/40 border border-slate-100 dark:border-slate-800 p-6 md:p-8 shadow-xl">
+                {settings.faqs?.length > 0 ? (
+                  settings.faqs.slice(0, 6).map((faq, i) => (
+                    <FAQItem 
+                      key={i} 
+                      faq={faq} 
+                      isOpen={openFaqIndex === i} 
+                      toggle={() => setOpenFaqIndex(openFaqIndex === i ? null : i)} 
+                    />
+                  ))
+                ) : (
+                  <p className="text-center text-slate-400 font-black uppercase tracking-widest text-[10px] py-10">Updating Support Database...</p>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-black dark:bg-[#0a0a0a] overflow-hidden relative">
+        <div className="absolute inset-0 bg-violet-600/5 blur-[100px]" />
+        <div className="container mx-auto px-6 text-center relative z-10">
+          <h2 className="text-4xl md:text-6xl font-black font-heading text-white mb-10 uppercase tracking-tighter max-w-4xl mx-auto leading-none">
+            Ready to scale your <span className="text-violet-500">trading edge</span>?
+          </h2>
+          <button 
+            onClick={() => setIsContactModalOpen(true)}
+            className="bg-violet-600 text-white px-14 py-6 font-black uppercase tracking-widest text-[10px] hover:bg-white hover:text-black transition-all"
+          >
+            Get Instant Access
+          </button>
+        </div>
+      </section>
+
+      {/* Notification */}
+      <AnimatePresence>
+        {showNotification && (
+          <motion.div 
+            initial={{ opacity: 0, x: -100 }} 
+            animate={{ opacity: 1, x: 0 }} 
+            exit={{ opacity: 0, x: -100 }} 
+            className="fixed bottom-4 left-4 sm:bottom-8 sm:left-8 z-[100] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-3 sm:p-4 shadow-2xl flex items-center space-x-3 sm:space-x-4 max-w-[280px] sm:max-w-xs scale-90 sm:scale-100 origin-bottom-left"
+          >
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black dark:bg-violet-600 flex items-center justify-center flex-shrink-0">
+              <ShoppingBag size={18} className="text-white" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[9px] sm:text-[10px] font-black text-black dark:text-white uppercase tracking-tight">Recent Purchase</div>
+              <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium truncate">
+                <span className="font-black text-violet-600 dark:text-violet-400">{recentBuyer}</span> bought {recentProduct}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <BuyModal isOpen={isBuyModalOpen} onClose={() => setIsBuyModalOpen(false)} product={selectedProduct} />
+      <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} settings={settings} />
+    </div>
+  );
+};
+
+export default Home;
