@@ -44,7 +44,7 @@ const Products = () => {
   };
   const [formData, setFormData] = useState(initialForm);
   const [extendedHtml, setExtendedHtml] = useState('');
-  const [productTags, setProductTags] = useState('Professional Grade, Hyper-realistic, All Devices');
+  const [productTags, setProductTags] = useState('');
 
   const fetchProducts = async () => {
     try {
@@ -67,7 +67,7 @@ const Products = () => {
     setExtendedHtml(htmlFeature ? htmlFeature.content : '');
 
     const tagsFeature = product.features?.find(f => f.is_tags_list);
-    setProductTags(tagsFeature ? tagsFeature.tags : 'Professional Grade, Hyper-realistic, All Devices');
+    setProductTags(tagsFeature ? tagsFeature.tags : '');
     
     const cleanedFeatures = product.features?.filter(f => !f.is_html_details && !f.is_tags_list) || [];
     setFormData({ ...product, features: cleanedFeatures });
@@ -80,7 +80,7 @@ const Products = () => {
   const handleAdd = () => {
     setFormData(initialForm);
     setExtendedHtml('');
-    setProductTags('Professional Grade, Hyper-realistic, All Devices');
+    setProductTags('');
     setIsEditMode(false);
     setEditingId(null);
     setIsModalOpen(true);
