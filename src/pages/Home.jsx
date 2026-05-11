@@ -43,8 +43,10 @@ const Home = () => {
     testimonials: [],
     faqs: [],
     whatsapp: '',
-    telegram: ''
+    telegram: '',
+    home_product_count: 3
   });
+  const [viewSize, setViewSize] = useState(() => localStorage.getItem('productViewSize') || 'medium');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -132,6 +134,16 @@ const Home = () => {
   // Duplicate testimonials for seamless loop
   const displayTestimonials = [...(settings.testimonials || []), ...(settings.testimonials || [])];
 
+  useEffect(() => {
+    localStorage.setItem('productViewSize', viewSize);
+  }, [viewSize]);
+
+  const getGridClass = () => {
+    if (viewSize === 'large') return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8';
+    if (viewSize === 'small') return 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6';
+    return 'grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 md:gap-8';
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Vibe Hero Section */}
@@ -174,7 +186,7 @@ const Home = () => {
       </section>
 
       {/* Featured Grid */}
-      <section className="py-16">
+      <section className="py-16 relative z-10">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 text-center md:text-left">
             <div>
@@ -186,20 +198,56 @@ const Home = () => {
                 Most Popular Assets
               </h2>
             </div>
-            <Link to="/shop" className="btn-pro text-[9px]">
-              Explore All Products
-            </Link>
+            
+            <div className="flex items-center space-x-3 justify-center">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 hidden sm:block">View Size:</span>
+              <div className="flex bg-[#0a0a0a] border border-white/10 rounded overflow-hidden shadow-xl">
+                <button 
+                  onClick={() => setViewSize('large')} 
+                  className={`p-2 sm:px-4 transition-all ${viewSize === 'large' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                  title="Large Size"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                </button>
+                <button 
+                  onClick={() => setViewSize('medium')} 
+                  className={`p-2 sm:px-4 border-x border-white/10 transition-all ${viewSize === 'medium' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                  title="Medium Size"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                </button>
+                <button 
+                  onClick={() => setViewSize('small')} 
+                  className={`p-2 sm:px-4 transition-all ${viewSize === 'small' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                  title="Small Size"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="4" height="4" x="3" y="3" rx="1"/><rect width="4" height="4" x="10" y="3" rx="1"/><rect width="4" height="4" x="17" y="3" rx="1"/><rect width="4" height="4" x="3" y="10" rx="1"/><rect width="4" height="4" x="10" y="10" rx="1"/><rect width="4" height="4" x="17" y="10" rx="1"/><rect width="4" height="4" x="3" y="17" rx="1"/><rect width="4" height="4" x="10" y="17" rx="1"/><rect width="4" height="4" x="17" y="17" rx="1"/></svg>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className={`grid ${getGridClass()} mb-16`}>
             {loading ? (
-              [...Array(3)].map((_, i) => <ProductCardSkeleton key={i} />)
+              [...Array(settings.home_product_count || 3)].map((_, i) => <ProductCardSkeleton key={i} />)
             ) : (
-              products.slice(0, 3).map((product) => (
+              products.slice(0, settings.home_product_count || 3).map((product) => (
                 <ProductCard key={product.id} product={product} onBuy={handleBuy} />
               ))
             )}
           </div>
+          
+          {products.length > (settings.home_product_count || 3) && (
+            <div className="flex justify-center">
+              <Link 
+                to="/shop" 
+                className="group flex items-center space-x-3 bg-[#0a0a0a] border border-cyan-500/30 px-10 py-5 font-black uppercase tracking-widest text-[11px] text-white hover:bg-cyan-500 hover:text-black hover:shadow-xl hover:shadow-cyan-500/20 transition-all"
+              >
+                <span>Show All Products</span>
+                <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

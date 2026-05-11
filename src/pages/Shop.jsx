@@ -13,6 +13,7 @@ const Shop = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
+  const [viewSize, setViewSize] = useState(() => localStorage.getItem('productViewSize') || 'medium');
 
   const categories = ['All', 'MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators'];
 
@@ -59,6 +60,16 @@ const Shop = () => {
 
     setFilteredProducts(result);
   }, [searchTerm, selectedCategory, sortBy, products]);
+
+  useEffect(() => {
+    localStorage.setItem('productViewSize', viewSize);
+  }, [viewSize]);
+
+  const getGridClass = () => {
+    if (viewSize === 'large') return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10';
+    if (viewSize === 'small') return 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6';
+    return 'grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 md:gap-10';
+  };
 
   const handleBuy = (product) => {
     setSelectedProduct(product);
@@ -123,7 +134,34 @@ const Shop = () => {
                  <option value="price-low">Price: Low to High</option>
                  <option value="price-high">Price: High to Low</option>
                </select>
-            </div>
+             </div>
+             
+             <div className="flex items-center space-x-2 border-l border-slate-200 pl-6 ml-2 hidden sm:flex">
+               <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">View:</span>
+               <div className="flex bg-slate-50 border border-slate-200 rounded overflow-hidden">
+                 <button 
+                   onClick={() => setViewSize('large')} 
+                   className={`p-2 transition-all ${viewSize === 'large' ? 'bg-violet-600 text-white' : 'text-slate-400 hover:text-black hover:bg-slate-100'}`}
+                   title="Large Size"
+                 >
+                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
+                 </button>
+                 <button 
+                   onClick={() => setViewSize('medium')} 
+                   className={`p-2 border-x border-slate-200 transition-all ${viewSize === 'medium' ? 'bg-violet-600 text-white' : 'text-slate-400 hover:text-black hover:bg-slate-100'}`}
+                   title="Medium Size"
+                 >
+                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                 </button>
+                 <button 
+                   onClick={() => setViewSize('small')} 
+                   className={`p-2 transition-all ${viewSize === 'small' ? 'bg-violet-600 text-white' : 'text-slate-400 hover:text-black hover:bg-slate-100'}`}
+                   title="Small Size"
+                 >
+                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="4" height="4" x="3" y="3" rx="1"/><rect width="4" height="4" x="10" y="3" rx="1"/><rect width="4" height="4" x="17" y="3" rx="1"/><rect width="4" height="4" x="3" y="10" rx="1"/><rect width="4" height="4" x="10" y="10" rx="1"/><rect width="4" height="4" x="17" y="10" rx="1"/><rect width="4" height="4" x="3" y="17" rx="1"/><rect width="4" height="4" x="10" y="17" rx="1"/><rect width="4" height="4" x="17" y="17" rx="1"/></svg>
+                 </button>
+               </div>
+             </div>
           </div>
         </div>
       </div>
@@ -133,7 +171,7 @@ const Shop = () => {
           <AnimatePresence mode="popLayout">
             <motion.div 
               layout
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+              className={`grid ${getGridClass()}`}
             >
               {loading ? (
                 [...Array(6)].map((_, i) => <ProductCardSkeleton key={i} />)
