@@ -102,7 +102,7 @@ const ProductDetails = () => {
 
       <div className="pt-32 pb-20 container mx-auto px-6 max-w-6xl">
         {/* Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24 items-center mb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-10 items-center mb-32">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -120,7 +120,7 @@ const ProductDetails = () => {
             className="space-y-8"
           >
             <div>
-              <h1 className="text-3xl md:text-5xl font-black font-heading leading-[1.1] mb-8 uppercase tracking-tighter text-white">
+              <h1 className="text-3xl md:text-5xl font-black font-heading leading-[1.1] mb-3 uppercase tracking-tighter text-white">
                 {product.name}
               </h1>
               <div 
