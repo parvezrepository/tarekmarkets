@@ -102,14 +102,14 @@ const ProductDetails = () => {
 
       <div className="pt-32 pb-20 container mx-auto px-6 max-w-6xl">
         {/* Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-20 items-center mb-32">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="relative"
+            className="relative w-full max-w-sm lg:max-w-md mx-auto"
           >
             <div className="absolute -inset-4 bg-cyan-500/20 blur-[80px] rounded-full" />
-            <div className="relative aspect-square bg-[#0a0a0a] border border-white/10 p-8 shadow-2xl">
+            <div className="relative aspect-square bg-[#0a0a0a] border border-white/10 p-6 md:p-8 shadow-2xl">
               <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
             </div>
           </motion.div>
@@ -117,10 +117,10 @@ const ProductDetails = () => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="space-y-10"
+            className="space-y-8"
           >
             <div>
-              <h1 className="text-5xl md:text-7xl font-black font-heading leading-[1] mb-6 uppercase tracking-tighter text-white">
+              <h1 className="text-3xl md:text-5xl font-black font-heading leading-[1.1] mb-5 uppercase tracking-tighter text-white">
                 {product.name}
               </h1>
               <div 
