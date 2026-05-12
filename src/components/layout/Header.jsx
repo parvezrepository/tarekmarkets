@@ -17,7 +17,8 @@ const Header = () => {
   const { toggleCart, cartCount } = useCart();
   const location = useLocation();
   const [settings, setSettings] = useState({
-    announcement: '',
+    announcement: 'WELCOME TO MONEY PRINTING MARKET',
+    sitename: 'TRADEKITS',
     whatsapp: '',
     telegram: ''
   });

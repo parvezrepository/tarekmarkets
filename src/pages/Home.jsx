@@ -46,7 +46,14 @@ const Home = () => {
     whatsapp: '',
     telegram: '',
     home_product_count: 3,
-    loaded: false // Flag to prevent price blinking
+    loaded: false,
+    homepage_settings: {
+      hero_badge: { text: 'TRADERVAULT', show: true },
+      hero_title: { text: 'TRADE WITH SMART TOOLS', show: true },
+      hero_subtitle: { text: 'Unlock professional-grade automation and indicators. Trusted by thousands.', show: true },
+      hero_btn1: { text: 'EXPLORE MARKETPLACE', show: true },
+      hero_btn2: { text: 'JOIN COMMUNITY', show: true }
+    }
   });
   const getInitialView = () => {
     const saved = localStorage.getItem('productViewSize');
