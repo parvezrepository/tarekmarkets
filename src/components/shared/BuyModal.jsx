@@ -235,11 +235,13 @@ const BuyModal = ({ isOpen, onClose, product }) => {
               <p className="text-[9px] text-center text-slate-500 font-bold uppercase tracking-widest pt-4">
                 Available 24/7 for instant delivery & licensing.
               </p>
-            </div>
-          </motion.div>
+            </>
+          )}
         </div>
-      )}
-    </AnimatePresence>
+      </motion.div>
+    </div>
+  )}
+</AnimatePresence>
   );
 };
 
