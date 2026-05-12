@@ -46,11 +46,7 @@ const AppContent = () => {
 
   return (
     <SmoothScroll>
-      <div className={`flex flex-col min-h-screen transition-colors duration-500 ${
-        isAdminPath 
-          ? 'bg-[#020617]' 
-          : 'bg-white dark:bg-[#020617]'
-      } text-text-main selection:bg-accent-cyan selection:text-primary-dark`}>
+      <div className={`flex flex-col min-h-screen transition-colors duration-500 bg-white dark:bg-[#020617] text-text-main selection:bg-accent-cyan selection:text-primary-dark`}>
         <ScrollToTop />
         
         {!isAdminPath && <Header />}
