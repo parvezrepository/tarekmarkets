@@ -64,7 +64,7 @@ const HpSettingField = ({ title, fieldName, settings, setSettings }) => {
 };
 
 export const HomepageSettingsUI = ({ settings, setSettings }) => {
-  if (!settings.homepage_settings) return null;
+  const hp = settings.homepage_settings || {};
 
   return (
     <section className="bg-white border border-slate-200 shadow-sm overflow-hidden">
@@ -79,26 +79,27 @@ export const HomepageSettingsUI = ({ settings, setSettings }) => {
         <h4 className="font-black text-xs uppercase tracking-widest text-slate-800 mb-4">Section Visibility</h4>
         <div className="flex flex-wrap gap-4">
           <button 
-            onClick={() => setSettings({...settings, homepage_settings: {...settings.homepage_settings, show_proof_section: settings.homepage_settings.show_proof_section !== false ? false : true}})}
-            className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${settings.homepage_settings.show_proof_section !== false ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+            onClick={() => setSettings({...settings, homepage_settings: {...hp, show_proof_section: hp.show_proof_section !== false ? false : true}})}
+            className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${hp.show_proof_section !== false ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
           >
-            {settings.homepage_settings.show_proof_section !== false ? <Eye size={14} /> : <EyeOff size={14} />}
+            {hp.show_proof_section !== false ? <Eye size={14} /> : <EyeOff size={14} />}
             <span>Proof Gallery Section</span>
           </button>
           <button 
-            onClick={() => setSettings({...settings, homepage_settings: {...settings.homepage_settings, show_faq_section: settings.homepage_settings.show_faq_section !== false ? false : true}})}
-            className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${settings.homepage_settings.show_faq_section !== false ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+            onClick={() => setSettings({...settings, homepage_settings: {...hp, show_faq_section: hp.show_faq_section !== false ? false : true}})}
+            className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${hp.show_faq_section !== false ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
           >
-            {settings.homepage_settings.show_faq_section !== false ? <Eye size={14} /> : <EyeOff size={14} />}
+            {hp.show_faq_section !== false ? <Eye size={14} /> : <EyeOff size={14} />}
             <span>FAQ & Support Section</span>
           </button>
-        <button 
-          onClick={() => setSettings({...settings, homepage_settings: {...settings.homepage_settings, hide_full_price: settings.homepage_settings.hide_full_price !== true ? true : false}})}
-          className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${settings.homepage_settings.hide_full_price !== true ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
-        >
-          {settings.homepage_settings.hide_full_price !== true ? <Eye size={14} /> : <EyeOff size={14} />}
-          <span>Full Price Visibility</span>
-        </button>
+          <button 
+            onClick={() => setSettings({...settings, homepage_settings: {...hp, hide_full_price: hp.hide_full_price !== true ? true : false}})}
+            className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${hp.hide_full_price !== true ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+          >
+            {hp.hide_full_price !== true ? <Eye size={14} /> : <EyeOff size={14} />}
+            <span>Full Price Visibility</span>
+          </button>
+        </div>
       </div>
 
       <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-slate-50/30">

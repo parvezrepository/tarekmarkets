@@ -39,6 +39,7 @@ const Settings = () => {
     telegram_channel: '',
     whatsapp_channel: '',
     home_product_count: 3,
+    homepage_settings: {},
     testimonials: [
       { image: 'https://images.unsplash.com/photo-1611974714658-66d1456070bd?auto=format&fit=crop&q=80&w=800' },
       { image: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800' }
