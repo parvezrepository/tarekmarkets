@@ -5,11 +5,13 @@ import { useCart } from '../../context/CartContext';
 import { useTheme } from '../../context/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import ContactModal from '../shared/ContactModal';
+import CommunityModal from '../shared/CommunityModal';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isCommunityOpen, setIsCommunityOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const [currency, setCurrency] = useState(() => localStorage.getItem('currency') || 'BDT');
   const { toggleCart, cartCount } = useCart();
@@ -96,6 +98,10 @@ const Header = () => {
                 Contact
                 <span className="absolute -bottom-2 left-0 h-0.5 w-0 bg-violet-600 group-hover:w-full transition-all duration-300" />
               </button>
+              <button onClick={() => setIsCommunityOpen(true)} className="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 hover:text-violet-600 transition-all relative group">
+                Community
+                <span className="absolute -bottom-2 left-0 h-0.5 w-0 bg-violet-600 group-hover:w-full transition-all duration-300" />
+              </button>
             </div>
             
             <div className="h-6 w-px bg-slate-100 dark:bg-slate-800 mx-2" />
@@ -160,6 +166,10 @@ const Header = () => {
                   <span>Contact</span>
                   <ArrowRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </button>
+                <button onClick={() => { setIsOpen(false); setIsCommunityOpen(true); }} className="text-lg font-black uppercase tracking-tighter text-black dark:text-white flex items-center justify-between group">
+                  <span>Community</span>
+                  <ArrowRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
                 <div className="pt-8 border-t border-slate-50 dark:border-slate-800 flex flex-col space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <button onClick={toggleTheme} className="flex items-center justify-between w-full bg-slate-50 dark:bg-slate-800 p-5 font-black uppercase tracking-widest text-[10px] text-black dark:text-white">
@@ -186,6 +196,7 @@ const Header = () => {
       </nav>
 
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} settings={settings} />
+      <CommunityModal isOpen={isCommunityOpen} onClose={() => setIsCommunityOpen(false)} settings={settings} />
     </>
   );
 };

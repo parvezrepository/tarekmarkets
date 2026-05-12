@@ -35,6 +35,8 @@ const Settings = () => {
     twitter: '',
     instagram: '',
     youtube: '',
+    telegram_channel: '',
+    whatsapp_channel: '',
     home_product_count: 3,
     testimonials: [
       { image: 'https://images.unsplash.com/photo-1611974714658-66d1456070bd?auto=format&fit=crop&q=80&w=800' },
@@ -344,15 +346,41 @@ const Settings = () => {
                 </div>
               </div>
               <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Telegram Direct Support (Username)</label>
+                <div className="relative">
+                  <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                  <input 
+                    type="text" 
+                    value={settings.telegram || ''}
+                    onChange={(e) => setSettings({...settings, telegram: e.target.value})}
+                    className="w-full bg-slate-50 border border-slate-100 pl-14 pr-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black" 
+                    placeholder="username"
+                  />
+                </div>
+              </div>
+              <div className="space-y-4">
                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Community Channel (Telegram)</label>
                 <div className="relative">
                   <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                   <input 
                     type="text" 
-                    value={settings.telegram}
-                    onChange={(e) => setSettings({...settings, telegram: e.target.value})}
+                    value={settings.telegram_channel || ''}
+                    onChange={(e) => setSettings({...settings, telegram_channel: e.target.value})}
                     className="w-full bg-slate-50 border border-slate-100 pl-14 pr-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black" 
-                    placeholder="username"
+                    placeholder="https://t.me/your_channel"
+                  />
+                </div>
+              </div>
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Community Channel (WhatsApp)</label>
+                <div className="relative">
+                  <Smartphone className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                  <input 
+                    type="text" 
+                    value={settings.whatsapp_channel || ''}
+                    onChange={(e) => setSettings({...settings, whatsapp_channel: e.target.value})}
+                    className="w-full bg-slate-50 border border-slate-100 pl-14 pr-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black" 
+                    placeholder="https://whatsapp.com/channel/..."
                   />
                 </div>
               </div>
