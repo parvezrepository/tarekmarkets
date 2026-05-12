@@ -29,9 +29,13 @@ router.post('/', authenticateAdmin, async (req, res) => {
     let result;
     if (existing) {
       // Update
+      const updateData = { ...req.body };
+      delete updateData.id;
+      delete updateData.updated_at;
+
       const { data, error } = await supabase
         .from('settings')
-        .update(req.body)
+        .update(updateData)
         .eq('id', existing.id)
         .select();
       if (error) throw error;
