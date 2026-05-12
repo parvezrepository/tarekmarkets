@@ -19,8 +19,7 @@ const Shop = () => {
   };
   const [viewSize, setViewSize] = useState(getInitialView);
 
-  const categories = ['All', 'MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators'];
-
+  const [categories, setCategories] = useState(['All', 'MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators']);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,11 +31,27 @@ const Shop = () => {
         setFilteredProducts(data);
       } catch (err) {
         console.error('Products fetch error:', err);
-      } finally {
-        setLoading(false);
       }
     };
-    fetchProducts();
+
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/settings`);
+        const data = await response.json();
+        if (data && data.categories) {
+          setCategories(['All', ...data.categories]);
+        }
+      } catch (err) {
+        console.error('Categories fetch error:', err);
+      }
+    };
+
+    const init = async () => {
+      setLoading(true);
+      await Promise.all([fetchProducts(), fetchCategories()]);
+      setLoading(false);
+    };
+    init();
   }, []);
 
   useEffect(() => {

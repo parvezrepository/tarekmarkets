@@ -23,7 +23,9 @@ import 'react-quill-new/dist/quill.snow.css';
 const Products = () => {
   const { getAuthHeader } = useAuth();
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState(['MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators']);
   const [loading, setLoading] = useState(true);
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -34,13 +36,13 @@ const Products = () => {
   // Form State
   const initialForm = {
     name: '',
-    category: 'MT4 Indicators',
+    category: categories[0] || 'MT4 Indicators',
     price: '',
     badge: '',
     description: '',
     image: 'https://images.unsplash.com/photo-1611974714658-66d1456070bd?auto=format&fit=crop&q=80&w=800',
     video_url: '',
-    features: [] // Array of { icon: '', title: '', description: '' }
+    features: []
   };
   const [formData, setFormData] = useState(initialForm);
   const [extendedHtml, setExtendedHtml] = useState('');
@@ -51,15 +53,30 @@ const Products = () => {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
       const data = await response.json();
       setProducts(data);
-      setLoading(false);
     } catch (err) {
       console.error('Fetch error:', err);
-      setLoading(false);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/settings`);
+      const data = await response.json();
+      if (data && data.categories) {
+        setCategories(data.categories);
+      }
+    } catch (err) {
+      console.error('Categories fetch error:', err);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    const init = async () => {
+      setLoading(true);
+      await Promise.all([fetchProducts(), fetchCategories()]);
+      setLoading(false);
+    };
+    init();
   }, []);
 
   const handleEdit = (product) => {
@@ -258,10 +275,9 @@ const Products = () => {
               className="bg-transparent outline-none cursor-pointer text-xs font-black uppercase tracking-widest text-black dark:text-white"
             >
               <option value="All">All Categories</option>
-              <option value="MT4 Indicators">MT4 Indicators</option>
-              <option value="Forex Robots">Forex Robots</option>
-              <option value="Trading Tools">Trading Tools</option>
-              <option value="Indicators">Indicators</option>
+              {categories.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
             </select>
           </div>
         </div>
@@ -394,10 +410,9 @@ const Products = () => {
                       onChange={(e) => setFormData({...formData, category: e.target.value})}
                       className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-6 py-4 text-sm font-bold outline-none focus:border-black dark:focus:border-white transition-all appearance-none cursor-pointer text-black dark:text-white"
                     >
-                      <option>MT4 Indicators</option>
-                      <option>Forex Robots</option>
-                      <option>Trading Tools</option>
-                      <option>Indicators</option>
+                      {categories.map(cat => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
                     </select>
                   </div>
                   <div className="space-y-3">
