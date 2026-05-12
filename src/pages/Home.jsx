@@ -149,6 +149,8 @@ const Home = () => {
     return 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6';
   };
 
+  const hp = settings.homepage_settings || {};
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Vibe Hero Section */}
@@ -164,26 +166,38 @@ const Home = () => {
             <div className="relative z-10 max-w-4xl mx-auto">
               <div className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-none mb-4">
                 <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-ping" />
-                <span className="text-[8px] font-black text-white uppercase tracking-[0.3em]">System Status: Operational</span>
+                {hp.hero_badge?.show !== false && (
+                  <span className={`font-black text-white uppercase tracking-[0.3em] ${hp.hero_badge?.size || 'text-[8px]'}`}>
+                    {hp.hero_badge?.text || 'System Status: Operational'}
+                  </span>
+                )}
               </div>
               
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-white leading-[1.1] mb-6 tracking-tighter uppercase">
-                Trade with <span className="text-violet-500">Precision</span>.
-              </h1>
-              <p className="text-sm md:text-base text-slate-400 font-medium mb-8 max-w-2xl mx-auto leading-relaxed">
-                Unlock professional-grade automation and indicators. Trusted by thousands.
-              </p>
+              {hp.hero_title?.show !== false && (
+                <h1 className={`font-black font-heading text-white leading-[1.1] mb-6 tracking-tighter uppercase ${hp.hero_title?.size || 'text-3xl sm:text-4xl md:text-6xl'}`}>
+                  {hp.hero_title?.text || 'Trade with Precision.'}
+                </h1>
+              )}
+              {hp.hero_subtitle?.show !== false && (
+                <p className={`text-slate-400 font-medium mb-8 max-w-2xl mx-auto leading-relaxed ${hp.hero_subtitle?.size || 'text-sm md:text-base'}`}>
+                  {hp.hero_subtitle?.text || 'Unlock professional-grade automation and indicators. Trusted by thousands.'}
+                </p>
+              )}
               
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Link to="/shop" className="bg-white text-black px-8 py-4 font-black uppercase tracking-widest text-[10px] sm:text-[9px] hover:bg-violet-500 hover:text-white transition-all text-center">
-                   Explore Marketplace
-                </Link>
-                <button 
-                  onClick={() => setIsCommunityModalOpen(true)}
-                  className="bg-transparent border border-white/20 text-white px-8 py-4 font-black uppercase tracking-widest text-[10px] sm:text-[9px] hover:border-violet-500 hover:bg-violet-600/10 transition-all text-center"
-                >
-                  Join Community
-                </button>
+                {hp.hero_btn1?.show !== false && (
+                  <Link to="/shop" className={`bg-white text-black px-8 py-4 font-black uppercase tracking-widest hover:bg-violet-500 hover:text-white transition-all text-center ${hp.hero_btn1?.size || 'text-[10px] sm:text-[9px]'}`}>
+                     {hp.hero_btn1?.text || 'Explore Marketplace'}
+                  </Link>
+                )}
+                {hp.hero_btn2?.show !== false && (
+                  <button 
+                    onClick={() => setIsCommunityModalOpen(true)}
+                    className={`bg-transparent border border-white/20 text-white px-8 py-4 font-black uppercase tracking-widest hover:border-violet-500 hover:bg-violet-600/10 transition-all text-center ${hp.hero_btn2?.size || 'text-[10px] sm:text-[9px]'}`}
+                  >
+                    {hp.hero_btn2?.text || 'Join Community'}
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>
@@ -195,13 +209,17 @@ const Home = () => {
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 text-center md:text-left">
             <div>
-              <div className="text-[9px] font-black text-violet-600 uppercase tracking-widest mb-2 flex items-center justify-center md:justify-start">
-                 <div className="w-8 h-px bg-violet-600 mr-3" />
-                 Premium Selection
-              </div>
-              <h2 className="text-3xl font-black font-heading text-black dark:text-white uppercase tracking-tighter">
-                Most Popular Assets
-              </h2>
+              {hp.popular_badge?.show !== false && (
+                <div className={`font-black text-violet-600 uppercase tracking-widest mb-2 flex items-center justify-center md:justify-start ${hp.popular_badge?.size || 'text-[9px]'}`}>
+                   <div className="w-8 h-px bg-violet-600 mr-3" />
+                   {hp.popular_badge?.text || 'Premium Selection'}
+                </div>
+              )}
+              {hp.popular_title?.show !== false && (
+                <h2 className={`font-black font-heading text-black dark:text-white uppercase tracking-tighter ${hp.popular_title?.size || 'text-3xl'}`}>
+                  {hp.popular_title?.text || 'Most Popular Assets'}
+                </h2>
+              )}
             </div>
             
             <div className="flex items-center space-x-3 justify-center">
@@ -271,8 +289,12 @@ const Home = () => {
             {/* Proof Gallery */}
             <div className="overflow-hidden">
               <div className="mb-10 text-center lg:text-left">
-                <div className="text-[10px] font-black text-violet-600 uppercase tracking-widest mb-3">Live Performance</div>
-                <h2 className="text-3xl font-black uppercase tracking-tighter text-black dark:text-white">Verified Proof Gallery</h2>
+                {hp.proof_badge?.show !== false && (
+                  <div className={`font-black text-violet-600 uppercase tracking-widest mb-3 ${hp.proof_badge?.size || 'text-[10px]'}`}>{hp.proof_badge?.text || 'Live Performance'}</div>
+                )}
+                {hp.proof_title?.show !== false && (
+                  <h2 className={`font-black uppercase tracking-tighter text-black dark:text-white ${hp.proof_title?.size || 'text-3xl'}`}>{hp.proof_title?.text || 'Verified Proof Gallery'}</h2>
+                )}
               </div>
               
               <div className="relative">
@@ -296,8 +318,12 @@ const Home = () => {
             {/* FAQ Section */}
             <div>
               <div className="mb-10 text-center lg:text-left">
-                <div className="text-[10px] font-black text-violet-600 uppercase tracking-widest mb-3">Support Center</div>
-                <h2 className="text-3xl font-black uppercase tracking-tighter text-black dark:text-white">Common Inquiries</h2>
+                {hp.faq_badge?.show !== false && (
+                  <div className={`font-black text-violet-600 uppercase tracking-widest mb-3 ${hp.faq_badge?.size || 'text-[10px]'}`}>{hp.faq_badge?.text || 'Support Center'}</div>
+                )}
+                {hp.faq_title?.show !== false && (
+                  <h2 className={`font-black uppercase tracking-tighter text-black dark:text-white ${hp.faq_title?.size || 'text-3xl'}`}>{hp.faq_title?.text || 'Common Inquiries'}</h2>
+                )}
               </div>
               
               <div className="bg-white dark:bg-[#0a0a0a]/40 border border-slate-100 dark:border-slate-800 p-6 md:p-8 shadow-xl">
@@ -324,15 +350,19 @@ const Home = () => {
       <section className="py-24 bg-black dark:bg-[#0a0a0a] overflow-hidden relative">
         <div className="absolute inset-0 bg-violet-600/5 blur-[100px]" />
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl md:text-6xl font-black font-heading text-white mb-10 uppercase tracking-tighter max-w-4xl mx-auto leading-none">
-            Ready to scale your <span className="text-violet-500">trading edge</span>?
-          </h2>
-          <button 
-            onClick={() => setIsContactModalOpen(true)}
-            className="bg-violet-600 text-white px-14 py-6 font-black uppercase tracking-widest text-[10px] hover:bg-white hover:text-black transition-all"
-          >
-            Get Instant Access
-          </button>
+          {hp.cta_title?.show !== false && (
+            <h2 className={`font-black font-heading text-white mb-10 uppercase tracking-tighter max-w-4xl mx-auto leading-none ${hp.cta_title?.size || 'text-4xl md:text-6xl'}`}>
+              {hp.cta_title?.text || 'Ready to scale your trading edge?'}
+            </h2>
+          )}
+          {hp.cta_btn?.show !== false && (
+            <button 
+              onClick={() => setIsContactModalOpen(true)}
+              className={`bg-violet-600 text-white px-14 py-6 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all ${hp.cta_btn?.size || 'text-[10px]'}`}
+            >
+              {hp.cta_btn?.text || 'Get Instant Access'}
+            </button>
+          )}
         </div>
       </section>
 

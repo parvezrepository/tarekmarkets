@@ -3,6 +3,19 @@ import { Link } from 'react-router-dom';
 import { Cpu, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 
 const Footer = () => {
+  const [settings, setSettings] = React.useState({ sitename: 'TradeKit', homepage_settings: null });
+  
+  React.useEffect(() => {
+    fetch(import.meta.env.VITE_API_URL + '/settings')
+      .then(res => res.json())
+      .then(data => {
+        if(data) setSettings(data);
+      })
+      .catch(console.error);
+  }, []);
+  
+  const hp = settings.homepage_settings || {};
+
   // সোশ্যাল মিডিয়া লিঙ্কগুলো এখানে পরিবর্তন করুন
   const socialLinks = [
     { Icon: Facebook, url: "https://facebook.com/your-page" }, // আপনার ফেসবুক লিঙ্ক দিন
@@ -22,12 +35,14 @@ const Footer = () => {
                 <Cpu className="text-primary-dark" size={24} />
               </div>
               <span className="text-2xl font-bold font-heading text-white">
-                Trade<span className="text-accent-cyan">Kit</span>
+                {settings.sitename || 'TradeKit'}
               </span>
             </Link>
-            <p className="text-slate-500 max-w-sm font-medium">
-              Your premium destination for trading automation and digital assets.
-            </p>
+            {hp.footer_text?.show !== false && (
+              <p className={`text-slate-500 max-w-sm font-medium ${hp.footer_text?.size || 'text-sm'}`}>
+                {hp.footer_text?.text || 'Your premium destination for trading automation and digital assets.'}
+              </p>
+            )}
           </div>
 
           {/* Quick Shop Links - এখানে to="/" এর জায়গায় আপনার পেজের পাথ দিন */}
@@ -55,9 +70,11 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">
-            © 2026 TradeKit. All rights reserved.
-          </p>
+          {hp.footer_copyright?.show !== false && (
+            <p className={`text-slate-500 font-bold uppercase tracking-widest ${hp.footer_copyright?.size || 'text-xs'}`}>
+              {hp.footer_copyright?.text || '© 2026 TradeKit. All rights reserved.'}
+            </p>
+          )}
           <div className="flex items-center space-x-8 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
             <Link to="/privacy-policy" className="hover:text-accent-cyan transition-colors">Privacy</Link>
             <Link to="/terms-of-service" className="hover:text-accent-cyan transition-colors">Terms</Link>

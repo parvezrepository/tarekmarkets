@@ -73,10 +73,10 @@ const Header = () => {
         <div className="container mx-auto px-6 flex items-center justify-between">
           <Link to="/" className="flex items-center group">
             <div className="w-8 h-8 bg-black dark:bg-white flex items-center justify-center mr-3 group-hover:rotate-12 transition-transform">
-               <span className="text-white dark:text-black font-black text-xs">D</span>
+               <span className="text-white dark:text-black font-black text-xs">{settings.sitename ? settings.sitename.charAt(0).toUpperCase() : 'T'}</span>
             </div>
             <span className="text-2xl font-black font-heading tracking-tighter text-black dark:text-white uppercase">
-              TradeKit
+              {settings.sitename || 'TradeKit'}
             </span>
           </Link>
 
