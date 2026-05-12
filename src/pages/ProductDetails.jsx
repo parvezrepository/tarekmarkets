@@ -154,10 +154,15 @@ const ProductDetails = () => {
                 const messageText = `Hello! I want to buy ${product.name} for ৳${product.price}.\n\nProduct Link: ${productUrl}`;
                 const encodedMessage = encodeURIComponent(messageText);
                 const waNumber = settings.whatsapp ? settings.whatsapp.replace(/[^0-9]/g, '') : '';
-                const tgUsername = settings.telegram ? settings.telegram.replace('@', '') : '';
+                
+                let tgUsername = settings.telegram ? settings.telegram.trim() : '';
+                if (tgUsername.includes('t.me/')) {
+                  tgUsername = tgUsername.split('t.me/')[1];
+                }
+                tgUsername = tgUsername.replace('@', '').split('?')[0];
                 
                 const whatsappUrl = `https://wa.me/${waNumber}?text=${encodedMessage}`;
-                const telegramUrl = `https://t.me/${tgUsername}?text=${encodedMessage}`;
+                const telegramUrl = tgUsername ? `https://t.me/${tgUsername}?text=${encodedMessage}` : '#';
 
                 return (
                   <>

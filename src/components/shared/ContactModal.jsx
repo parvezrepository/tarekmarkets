@@ -50,18 +50,29 @@ const ContactModal = ({ isOpen, onClose, settings }) => {
                 <Zap size={16} className="group-hover:translate-x-1 transition-transform" />
               </a>
               
-              <a 
-                href={`https://t.me/${settings.telegram}`} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="flex items-center justify-between bg-[#0088cc] text-white p-5 group hover:brightness-110 transition-all"
-              >
-                <div className="flex items-center space-x-4">
-                  <Send size={24} />
-                  <span className="font-black uppercase tracking-widest text-xs">Telegram Portal</span>
-                </div>
-                <Zap size={16} className="group-hover:translate-x-1 transition-transform" />
-              </a>
+              {(() => {
+                let tgUsername = settings.telegram ? settings.telegram.trim() : '';
+                if (tgUsername.includes('t.me/')) {
+                  tgUsername = tgUsername.split('t.me/')[1];
+                }
+                tgUsername = tgUsername.replace('@', '').split('?')[0];
+                const telegramUrl = tgUsername ? `https://t.me/${tgUsername}` : '#';
+
+                return (
+                  <a 
+                    href={telegramUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-center justify-between bg-[#0088cc] text-white p-5 group hover:brightness-110 transition-all"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <Send size={24} />
+                      <span className="font-black uppercase tracking-widest text-xs">Telegram Portal</span>
+                    </div>
+                    <Zap size={16} className="group-hover:translate-x-1 transition-transform" />
+                  </a>
+                );
+              })()}
             </div>
             
             <p className="mt-8 text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">Available 24/7 for premium members</p>
