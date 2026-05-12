@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 const ProductCard = ({ product, onBuy, settings: externalSettings }) => {
   const [currency, setCurrency] = useState(() => localStorage.getItem('currency') || 'BDT');
   const [settings, setSettings] = useState(externalSettings || { usd_rate: 120, homepage_settings: {} });
-  const [isLoaded, setIsLoaded] = useState(!!externalSettings);
+  const [isLoaded, setIsLoaded] = useState(!!externalSettings && Object.keys(externalSettings).length > 0);
 
   useEffect(() => {
     const handleCurrencyChange = () => {
@@ -16,10 +16,16 @@ const ProductCard = ({ product, onBuy, settings: externalSettings }) => {
     window.addEventListener('currencyChange', handleCurrencyChange);
 
     const fetchSettings = async () => {
-      if (externalSettings) {
+      if (externalSettings && Object.keys(externalSettings).length > 0) {
         setSettings(externalSettings);
         setIsLoaded(true);
         return;
+      }
+
+      // If we got null or empty settings from prop, we might need to fetch or wait
+      if (externalSettings === null) {
+          setIsLoaded(false);
+          return;
       }
 
       try {
@@ -31,7 +37,7 @@ const ProductCard = ({ product, onBuy, settings: externalSettings }) => {
         }
       } catch (err) { 
         console.error(err);
-        setIsLoaded(true); // Still set to true to show fallback if fetch fails
+        setIsLoaded(true); 
       }
     };
     fetchSettings();
