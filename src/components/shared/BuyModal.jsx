@@ -74,30 +74,30 @@ const BuyModal = ({ isOpen, onClose, product }) => {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="bg-white w-full max-w-md relative z-10 shadow-2xl overflow-hidden border border-slate-100"
+            className="bg-[#0a0a0a] w-full max-w-md relative z-10 shadow-2xl overflow-hidden border border-white/10"
           >
             {/* Close Button */}
             <button 
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-black transition-colors z-20"
+              className="absolute top-4 right-4 p-2 text-slate-500 hover:text-white transition-colors z-20"
             >
               <X size={20} />
             </button>
 
             {/* Product Preview Header */}
-            <div className="p-8 bg-slate-50 border-b border-slate-100">
+            <div className="p-8 bg-white/5 border-b border-white/10">
               <div className="flex items-center space-x-4">
-                <div className="w-20 h-20 bg-black overflow-hidden border border-slate-200">
+                <div className="w-20 h-20 bg-black overflow-hidden border border-white/10">
                   <img src={product.image} alt={product.name} className="w-full h-full object-cover grayscale" />
                 </div>
                 <div>
-                  <div className="text-[10px] font-black uppercase tracking-widest text-violet-600 mb-1">Direct Purchase</div>
-                  <h3 className="text-xl font-black text-black uppercase tracking-tighter leading-tight">{product.name}</h3>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-cyan-500 mb-1">Direct Purchase</div>
+                  <h3 className="text-xl font-black text-white uppercase tracking-tighter leading-tight">{product.name}</h3>
                   {settings.homepage_settings?.hide_main_price !== true ? (
                     <div className="flex items-baseline space-x-2">
-                      <div className="text-lg font-black text-black mt-1 tracking-tighter">{formatPrice(product.price)}</div>
+                      <div className="text-lg font-black text-white mt-1 tracking-tighter">{formatPrice(product.price)}</div>
                       {(product.old_price || settings.homepage_settings?.hide_full_price !== true) && (
-                        <div className="text-xs text-slate-400 line-through font-bold">
+                        <div className="text-xs text-slate-500 line-through font-bold">
                           {product.old_price 
                             ? formatPrice(product.old_price) 
                             : formatPrice(parseFloat(product.price) + (parseInt(settings.homepage_settings?.global_discount_amount) || 500))}
@@ -105,7 +105,7 @@ const BuyModal = ({ isOpen, onClose, product }) => {
                       )}
                     </div>
                   ) : (
-                    <div className="text-[10px] font-black text-violet-600 uppercase tracking-widest mt-1">Price on Inquiry</div>
+                    <div className="text-[10px] font-black text-cyan-500 uppercase tracking-widest mt-1">Price on Inquiry</div>
                   )}
                 </div>
               </div>
@@ -114,8 +114,8 @@ const BuyModal = ({ isOpen, onClose, product }) => {
             {/* Selection Area */}
             <div className="p-8 space-y-6">
               <div className="text-center space-y-2 mb-8">
-                <p className="text-sm font-bold text-slate-500 uppercase tracking-tight">Contact support to complete purchase</p>
-                <div className="flex items-center justify-center space-x-2 text-[10px] font-black text-emerald-600 uppercase tracking-widest">
+                <p className="text-sm font-bold text-slate-400 uppercase tracking-tight">Contact support to complete purchase</p>
+                <div className="flex items-center justify-center space-x-2 text-[10px] font-black text-emerald-500 uppercase tracking-widest">
                   <ShieldCheck size={12} />
                   <span>Secure Direct Transaction</span>
                 </div>

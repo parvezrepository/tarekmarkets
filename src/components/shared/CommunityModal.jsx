@@ -19,22 +19,22 @@ const CommunityModal = ({ isOpen, onClose, settings }) => {
           initial={{ opacity: 0, scale: 0.9, y: 20 }} 
           animate={{ opacity: 1, scale: 1, y: 0 }} 
           exit={{ opacity: 0, scale: 0.9, y: 20 }} 
-          className="bg-white w-full max-w-md relative z-10 shadow-2xl border border-slate-100 overflow-hidden"
+          className="bg-[#0a0a0a] w-full max-w-md relative z-10 shadow-2xl border border-white/10 overflow-hidden"
         >
           <button 
             onClick={onClose} 
-            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-black transition-colors"
+            className="absolute top-4 right-4 p-2 text-slate-500 hover:text-white transition-colors"
           >
             <X size={20} />
           </button>
           
           <div className="p-10 text-center">
-            <div className="w-16 h-16 bg-black flex items-center justify-center mx-auto mb-6">
-              <MessageCircle className="text-white" size={28} />
+            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6">
+              <MessageCircle className="text-cyan-500" size={28} />
             </div>
             
-            <h3 className="text-2xl font-black uppercase tracking-tighter mb-2">Join Community</h3>
-            <p className="text-slate-500 font-medium mb-8 uppercase text-[10px] tracking-widest leading-relaxed">This is our community channel! Here you will get fast updates on all products, so please join and stay connected.</p>
+            <h3 className="text-2xl font-black uppercase tracking-tighter mb-2 text-white">Join Community</h3>
+            <p className="text-slate-400 font-medium mb-8 uppercase text-[10px] tracking-widest leading-relaxed">This is our community channel! Here you will get fast updates on all products, so please join and stay connected.</p>
             
             <div className="space-y-4">
                 <a 
