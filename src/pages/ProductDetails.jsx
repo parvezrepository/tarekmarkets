@@ -189,6 +189,18 @@ const ProductDetails = () => {
                 <ShoppingCart size={18} />
                 <span>Get Access Now</span>
               </button>
+              
+              {product.video_url && (
+                <a 
+                  href={product.video_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center space-x-3 bg-[#e52d27] text-white px-8 py-5 font-black uppercase tracking-widest text-[11px] hover:bg-[#b31217] transition-all shadow-xl shadow-[#e52d27]/20"
+                >
+                  <Play size={18} />
+                  <span>Watch Demo Video</span>
+                </a>
+              )}
             </div>
           </motion.div>
         </div>
