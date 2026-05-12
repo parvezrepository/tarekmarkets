@@ -53,7 +53,7 @@ const Settings = () => {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/settings`);
       const data = await response.json();
       if (data && Object.keys(data).length > 0) {
-        setSettings(data);
+        setSettings(prev => ({ ...prev, ...data }));
       }
       setLoading(false);
     } catch (err) {
@@ -133,6 +133,61 @@ const Settings = () => {
         {/* Left Column */}
         <div className="xl:col-span-8 space-y-12">
           
+          {/* Category Management */}
+          <section className="bg-white border border-slate-200 shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Layout size={20} className="text-violet-600" />
+                <h3 className="font-black text-black uppercase tracking-widest text-xs">Marketplace Categories</h3>
+              </div>
+              <div className="flex items-center space-x-2 text-[10px] font-black text-emerald-600 uppercase tracking-widest">
+                <CheckCircle2 size={12} />
+                <span>Dynamic Dropdowns</span>
+              </div>
+            </div>
+            <div className="p-8 space-y-8">
+              <div className="flex flex-col md:flex-row gap-4">
+                <input 
+                  type="text" 
+                  id="new-category-input"
+                  placeholder="New Category Name (e.g. Premium Indicators)"
+                  className="flex-grow bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black"
+                />
+                <button 
+                  onClick={() => {
+                    const input = document.getElementById('new-category-input');
+                    const val = input.value.trim();
+                    if (val && !settings.categories?.includes(val)) {
+                      setSettings({ ...settings, categories: [...(settings.categories || []), val] });
+                      input.value = '';
+                    }
+                  }}
+                  className="bg-black text-white px-8 py-4 font-black uppercase tracking-widest text-xs hover:bg-zinc-800 transition-all"
+                >
+                  Add Category
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {(settings.categories || ['MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators']).map((cat, i) => (
+                  <div key={i} className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 group">
+                    <span className="text-xs font-black uppercase tracking-widest text-black">{cat}</span>
+                    <button 
+                      onClick={() => {
+                        const updated = (settings.categories || ['MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators']).filter(c => c !== cat);
+                        setSettings({ ...settings, categories: updated });
+                      }}
+                      className="p-2 text-slate-300 hover:text-red-500 transition-colors"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[10px] text-slate-400 font-bold italic uppercase tracking-wider">Note: Changes will reflect in Product Add/Edit and Shop Filter dropdowns.</p>
+            </div>
+          </section>
+
           {/* Announcement Bar */}
           <section className="bg-white border border-slate-200 shadow-sm overflow-hidden">
             <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
@@ -201,60 +256,7 @@ const Settings = () => {
             </div>
           </section>
 
-          {/* Category Management */}
-          <section className="bg-white border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <Layout size={20} className="text-violet-600" />
-                <h3 className="font-black text-black uppercase tracking-widest text-xs">Marketplace Categories</h3>
-              </div>
-              <div className="flex items-center space-x-2 text-[10px] font-black text-emerald-600 uppercase tracking-widest">
-                <CheckCircle2 size={12} />
-                <span>Dynamic Dropdowns</span>
-              </div>
-            </div>
-            <div className="p-8 space-y-8">
-              <div className="flex flex-col md:flex-row gap-4">
-                <input 
-                  type="text" 
-                  id="new-category-input"
-                  placeholder="New Category Name (e.g. Premium Indicators)"
-                  className="flex-grow bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black"
-                />
-                <button 
-                  onClick={() => {
-                    const input = document.getElementById('new-category-input');
-                    const val = input.value.trim();
-                    if (val && !settings.categories?.includes(val)) {
-                      setSettings({ ...settings, categories: [...(settings.categories || []), val] });
-                      input.value = '';
-                    }
-                  }}
-                  className="bg-black text-white px-8 py-4 font-black uppercase tracking-widest text-xs hover:bg-zinc-800 transition-all"
-                >
-                  Add Category
-                </button>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {(settings.categories || ['MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators']).map((cat, i) => (
-                  <div key={i} className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 group">
-                    <span className="text-xs font-black uppercase tracking-widest text-black">{cat}</span>
-                    <button 
-                      onClick={() => {
-                        const updated = settings.categories?.filter(c => c !== cat) || ['MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators'].filter(c => c !== cat);
-                        setSettings({ ...settings, categories: updated });
-                      }}
-                      className="p-2 text-slate-300 hover:text-red-500 transition-colors"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <p className="text-[10px] text-slate-400 font-bold italic uppercase tracking-wider">Note: Changes will reflect in Product Add/Edit and Shop Filter dropdowns.</p>
-            </div>
-          </section>
 
           {/* FAQ Management */}
           <section className="bg-white border border-slate-200 shadow-sm overflow-hidden">
