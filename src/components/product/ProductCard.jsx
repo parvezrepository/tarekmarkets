@@ -141,7 +141,9 @@ const ProductCard = ({ product, onBuy, settings: externalSettings }) => {
                       <span className="text-xl sm:text-2xl font-black text-white tracking-tighter">{formatPrice(product.price)}</span>
                       {hp.hide_full_price !== true && (
                         <span className="text-[9px] sm:text-[10px] text-slate-500 line-through font-bold">
-                          {formatPrice(product.price + (parseInt(hp.global_discount_amount) || 500))}
+                          {product.old_price 
+                            ? formatPrice(product.old_price) 
+                            : formatPrice(product.price + (parseInt(hp.global_discount_amount) || 500))}
                         </span>
                       )}
                     </>

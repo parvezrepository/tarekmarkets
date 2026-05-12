@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS products (
     name TEXT NOT NULL,
     description TEXT,
     price DECIMAL(12, 2) NOT NULL,
+    old_price DECIMAL(12, 2),
     category TEXT NOT NULL,
     image TEXT,
     video_url TEXT,

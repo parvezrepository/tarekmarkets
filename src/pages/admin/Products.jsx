@@ -38,6 +38,7 @@ const Products = () => {
     name: '',
     category: categories[0] || 'MT4 Indicators',
     price: '',
+    old_price: '',
     badge: '',
     description: '',
     image: 'https://images.unsplash.com/photo-1611974714658-66d1456070bd?auto=format&fit=crop&q=80&w=800',
@@ -439,13 +440,23 @@ const Products = () => {
                     />
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Price (BDT)</label>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Main Price (BDT)</label>
                     <input 
                       type="number" 
                       required
                       value={formData.price}
                       onChange={(e) => setFormData({...formData, price: e.target.value})}
                       placeholder="2500" 
+                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-6 py-4 text-sm font-bold outline-none focus:border-black dark:focus:border-white transition-all text-black dark:text-white" 
+                    />
+                  </div>
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Old Price (Strike-through)</label>
+                    <input 
+                      type="number" 
+                      value={formData.old_price}
+                      onChange={(e) => setFormData({...formData, old_price: e.target.value})}
+                      placeholder="3000" 
                       className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-6 py-4 text-sm font-bold outline-none focus:border-black dark:focus:border-white transition-all text-black dark:text-white" 
                     />
                   </div>

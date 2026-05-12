@@ -94,7 +94,16 @@ const BuyModal = ({ isOpen, onClose, product }) => {
                   <div className="text-[10px] font-black uppercase tracking-widest text-violet-600 mb-1">Direct Purchase</div>
                   <h3 className="text-xl font-black text-black uppercase tracking-tighter leading-tight">{product.name}</h3>
                   {settings.homepage_settings?.hide_main_price !== true ? (
-                    <div className="text-lg font-black text-black mt-1 tracking-tighter">{formatPrice(product.price)}</div>
+                    <div className="flex items-baseline space-x-2">
+                      <div className="text-lg font-black text-black mt-1 tracking-tighter">{formatPrice(product.price)}</div>
+                      {(product.old_price || settings.homepage_settings?.hide_full_price !== true) && (
+                        <div className="text-xs text-slate-400 line-through font-bold">
+                          {product.old_price 
+                            ? formatPrice(product.old_price) 
+                            : formatPrice(parseFloat(product.price) + (parseInt(settings.homepage_settings?.global_discount_amount) || 500))}
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <div className="text-[10px] font-black text-violet-600 uppercase tracking-widest mt-1">Price on Inquiry</div>
                   )}

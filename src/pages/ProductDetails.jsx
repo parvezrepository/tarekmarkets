@@ -119,10 +119,26 @@ const ProductDetails = () => {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-8"
           >
-            <div>
-              <h1 className="text-2xl md:text-4xl font-black font-heading leading-[1.1] mb-3 uppercase tracking-tighter text-white">
+            <div className="space-y-4">
+              <h1 className="text-2xl md:text-4xl font-black font-heading leading-[1.1] uppercase tracking-tighter text-white">
                 {product.name}
               </h1>
+              
+              <div className="flex items-baseline space-x-4">
+                {settings.homepage_settings?.hide_main_price !== true ? (
+                  <>
+                    <span className="text-3xl font-black text-cyan-500 tracking-tighter">৳{product.price}</span>
+                    {(product.old_price || settings.homepage_settings?.hide_full_price !== true) && (
+                      <span className="text-lg text-slate-500 line-through font-bold">
+                        ৳{product.old_price || (parseFloat(product.price) + (parseInt(settings.homepage_settings?.global_discount_amount) || 500))}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-sm font-black text-cyan-500 uppercase tracking-widest bg-cyan-500/10 px-4 py-2 border border-cyan-500/20">Price on Inquiry</span>
+                )}
+              </div>
+
               <div 
                 className="text-slate-300 text-lg font-medium max-w-lg leading-relaxed prose prose-invert prose-sm"
                 dangerouslySetInnerHTML={{ __html: product.description }}
