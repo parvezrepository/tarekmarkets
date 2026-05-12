@@ -20,6 +20,7 @@ import Shop from './pages/Shop';
 import ProductDetails from './pages/ProductDetails';
 import Checkout from './pages/Checkout';
 import Confirmation from './pages/Confirmation';
+import LegalPage from './pages/LegalPage';
 
 // Admin Pages
 import Login from './pages/admin/Login';
@@ -61,6 +62,9 @@ const AppContent = () => {
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/confirmation" element={<Confirmation />} />
+              <Route path="/privacy-policy" element={<LegalPage type="privacy" />} />
+              <Route path="/terms-of-service" element={<LegalPage type="terms" />} />
+              <Route path="/affiliate-program" element={<LegalPage type="affiliate" />} />
 
               {/* Admin Login */}
               <Route path="/admin/login" element={<Login />} />

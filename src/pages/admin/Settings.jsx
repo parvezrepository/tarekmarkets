@@ -376,6 +376,50 @@ const Settings = () => {
               </div>
             </div>
           </section>
+
+          {/* Legal Pages Management */}
+          <section className="bg-white border border-slate-200 shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center space-x-3">
+              <Shield size={20} className="text-violet-600" />
+              <h3 className="font-black text-black uppercase tracking-widest text-xs">Legal Pages (Policy & Terms)</h3>
+            </div>
+            <div className="p-8 space-y-10">
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Privacy Policy</label>
+                <textarea 
+                  value={settings.privacy_policy || ''}
+                  onChange={(e) => setSettings({...settings, privacy_policy: e.target.value})}
+                  rows="6"
+                  className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-xs font-bold outline-none focus:border-black transition-all text-black resize-none"
+                  placeholder="Enter Privacy Policy HTML or Text..."
+                />
+              </div>
+
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Terms of Service</label>
+                <textarea 
+                  value={settings.terms_of_service || ''}
+                  onChange={(e) => setSettings({...settings, terms_of_service: e.target.value})}
+                  rows="6"
+                  className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-xs font-bold outline-none focus:border-black transition-all text-black resize-none"
+                  placeholder="Enter Terms of Service HTML or Text..."
+                />
+              </div>
+
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Affiliate Program</label>
+                <textarea 
+                  value={settings.affiliate_program || ''}
+                  onChange={(e) => setSettings({...settings, affiliate_program: e.target.value})}
+                  rows="6"
+                  className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-xs font-bold outline-none focus:border-black transition-all text-black resize-none"
+                  placeholder="Enter Affiliate Program Information..."
+                />
+              </div>
+              
+              <p className="text-[10px] text-slate-400 font-bold italic uppercase tracking-wider">Note: You can use HTML tags for better formatting (e.g. &lt;h1&gt;, &lt;p&gt;, &lt;br&gt;).</p>
+            </div>
+          </section>
         </div>
 
         {/* Right Column */}

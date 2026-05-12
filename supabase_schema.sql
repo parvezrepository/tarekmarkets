@@ -34,6 +34,9 @@ CREATE TABLE IF NOT EXISTS settings (
     whatsapp TEXT,
     telegram TEXT,
     usd_rate DECIMAL(10, 2) DEFAULT 120.00,
+    privacy_policy TEXT,
+    terms_of_service TEXT,
+    affiliate_program TEXT,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
