@@ -76,9 +76,7 @@ const Footer = () => {
             </p>
           )}
           <div className="flex items-center space-x-8 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
-            <Link to="/privacy-policy" className="hover:text-accent-cyan transition-colors">Privacy</Link>
-            <Link to="/terms-of-service" className="hover:text-accent-cyan transition-colors">Terms</Link>
-            <Link to="/support" className="hover:text-accent-cyan transition-colors">Support</Link>
+            <Link to="/support" className="hover:text-accent-cyan transition-colors">Support Center</Link>
           </div>
         </div>
       </div>
