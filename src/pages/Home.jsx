@@ -21,6 +21,7 @@ import {
 import BuyModal from '../components/shared/BuyModal';
 
 import ContactModal from '../components/shared/ContactModal';
+import CommunityModal from '../components/shared/CommunityModal';
 
 const FAQItem = ({ faq, isOpen, toggle }) => (
   <div className="faq-item">
@@ -54,6 +55,7 @@ const Home = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isCommunityModalOpen, setIsCommunityModalOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [recentBuyer, setRecentBuyer] = useState('');
@@ -177,7 +179,7 @@ const Home = () => {
                    Explore Marketplace
                 </Link>
                 <button 
-                  onClick={() => setIsContactModalOpen(true)}
+                  onClick={() => setIsCommunityModalOpen(true)}
                   className="bg-transparent border border-white/20 text-white px-8 py-4 font-black uppercase tracking-widest text-[10px] sm:text-[9px] hover:border-violet-500 hover:bg-violet-600/10 transition-all text-center"
                 >
                   Join Community
@@ -355,9 +357,27 @@ const Home = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* Modals */}
+      {selectedProduct && (
+        <BuyModal
+          isOpen={isBuyModalOpen}
+          onClose={() => setIsBuyModalOpen(false)}
+          product={selectedProduct}
+        />
+      )}
+      
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+        settings={settings}
+      />
 
-      <BuyModal isOpen={isBuyModalOpen} onClose={() => setIsBuyModalOpen(false)} product={selectedProduct} />
-      <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} settings={settings} />
+      <CommunityModal 
+        isOpen={isCommunityModalOpen} 
+        onClose={() => setIsCommunityModalOpen(false)} 
+        settings={settings}
+      />
     </div>
   );
 };

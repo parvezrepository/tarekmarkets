@@ -57,9 +57,11 @@ const Header = () => {
       {settings.announcement && (
         <div className="announcement-bar py-3 px-6 text-center overflow-hidden relative">
           <div className="absolute inset-0 bg-violet-600/10 animate-pulse" />
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-800 dark:text-slate-200 relative z-10">
-            {settings.announcement}
-          </p>
+          <div className="w-full whitespace-nowrap overflow-hidden">
+            <p className={`text-[10px] font-black uppercase tracking-[0.2em] text-white relative z-10 inline-block px-4 ${settings.announcement.length > 50 ? 'animate-marquee' : ''}`}>
+              {settings.announcement}
+            </p>
+          </div>
         </div>
       )}
 
