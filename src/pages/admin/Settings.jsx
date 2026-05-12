@@ -25,7 +25,7 @@ const Settings = () => {
   const [saving, setSaving] = useState(false);
   
   const [settings, setSettings] = useState({
-    siteName: 'TradeKit',
+    sitename: 'TradeKit',
     whatsapp: '+8801700000000',
     telegram: 'digimart_official',
     bkash: '01700-000000',
@@ -326,8 +326,8 @@ const Settings = () => {
                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Store Label</label>
                 <input 
                   type="text" 
-                  value={settings.siteName}
-                  onChange={(e) => setSettings({...settings, siteName: e.target.value})}
+                  value={settings.sitename || ''}
+                  onChange={(e) => setSettings({...settings, sitename: e.target.value})}
                   className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black" 
                 />
               </div>
