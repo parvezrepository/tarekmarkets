@@ -86,8 +86,8 @@ const ProductCard = ({ product, onBuy }) => {
       </Link>
 
       {/* Info Area */}
-      <div className="p-6 flex flex-col flex-grow">
-        <div className="flex items-center justify-between mb-4">
+      <div className="p-4 sm:p-6 flex flex-col flex-grow">
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div className="flex items-center space-x-1">
             {[...Array(5)].map((_, i) => (
               <Star key={i} size={10} className={`${i < Math.floor(product.rating || 5) ? 'fill-cyan-500 text-cyan-500' : 'text-white/20'}`} />
@@ -101,32 +101,35 @@ const ProductCard = ({ product, onBuy }) => {
         </div>
 
         <Link to={`/product/${product.id}`}>
-          <h3 className="text-base md:text-lg font-black text-white mb-2 leading-tight uppercase tracking-tighter group-hover:text-cyan-400 transition-colors">
+          <h3 className="text-sm sm:text-base md:text-lg font-black text-white mb-2 leading-tight uppercase tracking-tighter group-hover:text-cyan-400 transition-colors">
             {product.name}
           </h3>
         </Link>
         
         <div 
-          className="text-slate-400 text-[10px] leading-relaxed mb-6 line-clamp-2 font-medium [&>p]:m-0"
+          className="text-slate-400 text-[9px] sm:text-[10px] leading-relaxed mb-4 sm:mb-6 line-clamp-2 font-medium [&>p]:m-0"
           dangerouslySetInnerHTML={{ __html: product.description }}
         />
         
-        <div className="flex flex-col space-y-4 mt-auto pt-5 border-t border-white/10">
-          <div className="flex items-end justify-between">
+        <div className="flex flex-col space-y-4 mt-auto pt-4 sm:pt-5 border-t border-white/10">
+          <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block mb-1">Standard Price</span>
-              <div className="flex items-baseline space-x-2">
-                <span className="text-2xl font-black text-white tracking-tighter">{formatPrice(product.price)}</span>
-                <span className="text-[10px] text-slate-500 line-through font-bold">{formatPrice(product.price + 500)}</span>
+              <div className="flex items-baseline space-x-1.5 sm:space-x-2">
+                <span className="text-xl sm:text-2xl font-black text-white tracking-tighter">{formatPrice(product.price)}</span>
+                <span className="text-[9px] sm:text-[10px] text-slate-500 line-through font-bold">{formatPrice(product.price + 500)}</span>
               </div>
             </div>
             
             <button 
-              onClick={() => onBuy(product)}
-              className="flex items-center space-x-2 bg-white/5 hover:bg-cyan-500 text-white hover:text-black border border-white/10 hover:border-cyan-500 px-4 py-2 font-black uppercase tracking-widest text-[10px] transition-all"
+              onClick={(e) => {
+                e.preventDefault();
+                onBuy(product);
+              }}
+              className="flex-shrink-0 flex items-center space-x-1.5 sm:space-x-2 bg-white/5 hover:bg-cyan-500 text-white hover:text-black border border-white/10 hover:border-cyan-500 px-3 sm:px-4 py-1.5 sm:py-2 font-black uppercase tracking-widest text-[9px] sm:text-[10px] transition-all"
             >
               <span>Buy</span>
-              <ShoppingCart size={12} />
+              <ShoppingCart size={12} className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
