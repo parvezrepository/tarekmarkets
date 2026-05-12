@@ -13,7 +13,11 @@ const Shop = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
-  const [viewSize, setViewSize] = useState(() => localStorage.getItem('productViewSize') || 'medium');
+  const getInitialView = () => {
+    const saved = localStorage.getItem('productViewSize');
+    return saved === 'large' ? 'large' : 'small';
+  };
+  const [viewSize, setViewSize] = useState(getInitialView);
 
   const categories = ['All', 'MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators'];
 
@@ -67,8 +71,7 @@ const Shop = () => {
 
   const getGridClass = () => {
     if (viewSize === 'large') return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10';
-    if (viewSize === 'small') return 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6';
-    return 'grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 md:gap-10';
+    return 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6';
   };
 
   const handleBuy = (product) => {
@@ -141,17 +144,10 @@ const Shop = () => {
                <div className="flex bg-slate-50 border border-slate-200 rounded overflow-hidden">
                  <button 
                    onClick={() => setViewSize('large')} 
-                   className={`p-2 transition-all ${viewSize === 'large' ? 'bg-violet-600 text-white' : 'text-slate-400 hover:text-black hover:bg-slate-100'}`}
+                   className={`p-2 border-r border-slate-200 transition-all ${viewSize === 'large' ? 'bg-violet-600 text-white' : 'text-slate-400 hover:text-black hover:bg-slate-100'}`}
                    title="Large Size"
                  >
                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
-                 </button>
-                 <button 
-                   onClick={() => setViewSize('medium')} 
-                   className={`p-2 border-x border-slate-200 transition-all ${viewSize === 'medium' ? 'bg-violet-600 text-white' : 'text-slate-400 hover:text-black hover:bg-slate-100'}`}
-                   title="Medium Size"
-                 >
-                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
                  </button>
                  <button 
                    onClick={() => setViewSize('small')} 

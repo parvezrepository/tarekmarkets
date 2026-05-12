@@ -46,7 +46,11 @@ const Home = () => {
     telegram: '',
     home_product_count: 3
   });
-  const [viewSize, setViewSize] = useState(() => localStorage.getItem('productViewSize') || 'medium');
+  const getInitialView = () => {
+    const saved = localStorage.getItem('productViewSize');
+    return saved === 'large' ? 'large' : 'small';
+  };
+  const [viewSize, setViewSize] = useState(getInitialView);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -140,8 +144,7 @@ const Home = () => {
 
   const getGridClass = () => {
     if (viewSize === 'large') return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8';
-    if (viewSize === 'small') return 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6';
-    return 'grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 md:gap-8';
+    return 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6';
   };
 
   return (
@@ -204,17 +207,10 @@ const Home = () => {
               <div className="flex bg-[#0a0a0a] border border-white/10 rounded overflow-hidden shadow-xl">
                 <button 
                   onClick={() => setViewSize('large')} 
-                  className={`p-2 sm:px-4 transition-all ${viewSize === 'large' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                  className={`p-2 sm:px-4 border-r border-white/10 transition-all ${viewSize === 'large' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                   title="Large Size"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/></svg>
-                </button>
-                <button 
-                  onClick={() => setViewSize('medium')} 
-                  className={`p-2 sm:px-4 border-x border-white/10 transition-all ${viewSize === 'medium' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
-                  title="Medium Size"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
                 </button>
                 <button 
                   onClick={() => setViewSize('small')} 
@@ -227,17 +223,31 @@ const Home = () => {
             </div>
           </div>
 
-          <div className={`grid ${getGridClass()} mb-16`}>
+          <div className={`grid ${getGridClass()} ${viewSize === 'large' ? 'mb-16' : ''}`}>
             {loading ? (
               [...Array(settings.home_product_count || 3)].map((_, i) => <ProductCardSkeleton key={i} />)
             ) : (
-              products.slice(0, settings.home_product_count || 3).map((product) => (
-                <ProductCard key={product.id} product={product} onBuy={handleBuy} />
-              ))
+              <>
+                {products.slice(0, settings.home_product_count || 3).map((product) => (
+                  <ProductCard key={product.id} product={product} onBuy={handleBuy} />
+                ))}
+
+                {viewSize === 'small' && products.length > (settings.home_product_count || 3) && (
+                  <Link 
+                    to="/shop" 
+                    className="group flex flex-col items-center justify-center h-full min-h-[250px] bg-[#0a0a0a] border border-cyan-500/30 hover:bg-cyan-500 hover:border-cyan-500 transition-all text-center p-6 shadow-xl shadow-cyan-500/5"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center mb-4 group-hover:bg-black transition-all">
+                      <ArrowRight size={20} className="text-cyan-500 group-hover:text-cyan-400" />
+                    </div>
+                    <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-cyan-400 group-hover:text-black">Explore More</span>
+                  </Link>
+                )}
+              </>
             )}
           </div>
           
-          {products.length > (settings.home_product_count || 3) && (
+          {viewSize === 'large' && products.length > (settings.home_product_count || 3) && (
             <div className="flex justify-center">
               <Link 
                 to="/shop" 
