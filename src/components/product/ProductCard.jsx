@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 const ProductCard = ({ product, onBuy }) => {
   const [currency, setCurrency] = useState(() => localStorage.getItem('currency') || 'BDT');
-  const [usdRate, setUsdRate] = useState(120);
+  const [settings, setSettings] = useState({ usd_rate: 120, homepage_settings: {} });
 
   useEffect(() => {
     const handleCurrencyChange = () => {
@@ -14,26 +14,30 @@ const ProductCard = ({ product, onBuy }) => {
     };
     window.addEventListener('currencyChange', handleCurrencyChange);
 
-    const fetchRate = async () => {
+    const fetchSettings = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/settings`);
         const data = await response.json();
-        if (data && data.usd_rate) {
-          setUsdRate(parseFloat(data.usd_rate));
+        if (data) {
+          setSettings(data);
         }
       } catch (err) { console.error(err); }
     };
-    fetchRate();
+    fetchSettings();
 
     return () => window.removeEventListener('currencyChange', handleCurrencyChange);
   }, []);
 
   const formatPrice = (bdtPrice) => {
+    const rate = parseFloat(settings.usd_rate) || 120;
     if (currency === 'USD') {
-      return `$${(bdtPrice / usdRate).toFixed(2)}`;
+      return `$${(bdtPrice / rate).toFixed(2)}`;
     }
     return `৳${bdtPrice}`;
   };
+
+  const hp = settings.homepage_settings || {};
+  const offer = hp.product_offer || { text: 'Standard Price', show: true, size: 'text-[8px]' };
 
   return (
     <motion.div 
@@ -114,10 +118,16 @@ const ProductCard = ({ product, onBuy }) => {
         <div className="flex flex-col space-y-4 mt-auto pt-4 sm:pt-5 border-t border-white/10">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block mb-1">Standard Price</span>
+              {offer.show !== false && (
+                <span className={`font-black text-slate-400 uppercase tracking-widest block mb-1 ${offer.size || 'text-[8px]'}`}>
+                  {offer.text || 'Standard Price'}
+                </span>
+              )}
               <div className="flex items-baseline space-x-1.5 sm:space-x-2">
                 <span className="text-xl sm:text-2xl font-black text-white tracking-tighter">{formatPrice(product.price)}</span>
-                <span className="text-[9px] sm:text-[10px] text-slate-500 line-through font-bold">{formatPrice(product.price + 500)}</span>
+                {hp.hide_full_price !== true && (
+                  <span className="text-[9px] sm:text-[10px] text-slate-500 line-through font-bold">{formatPrice(product.price + 500)}</span>
+                )}
               </div>
             </div>
             

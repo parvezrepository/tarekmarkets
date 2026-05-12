@@ -92,7 +92,13 @@ export const HomepageSettingsUI = ({ settings, setSettings }) => {
             {settings.homepage_settings.show_faq_section !== false ? <Eye size={14} /> : <EyeOff size={14} />}
             <span>FAQ & Support Section</span>
           </button>
-        </div>
+        <button 
+          onClick={() => setSettings({...settings, homepage_settings: {...settings.homepage_settings, hide_full_price: settings.homepage_settings.hide_full_price !== true ? true : false}})}
+          className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${settings.homepage_settings.hide_full_price !== true ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+        >
+          {settings.homepage_settings.hide_full_price !== true ? <Eye size={14} /> : <EyeOff size={14} />}
+          <span>Full Price Visibility</span>
+        </button>
       </div>
 
       <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-slate-50/30">
@@ -116,6 +122,8 @@ export const HomepageSettingsUI = ({ settings, setSettings }) => {
         
         <HpSettingField title="Footer Text" fieldName="footer_text" settings={settings} setSettings={setSettings} />
         <HpSettingField title="Footer Copyright" fieldName="footer_copyright" settings={settings} setSettings={setSettings} />
+        
+        <HpSettingField title="Product Offer Label" fieldName="product_offer" settings={settings} setSettings={setSettings} />
       </div>
     </section>
   );
