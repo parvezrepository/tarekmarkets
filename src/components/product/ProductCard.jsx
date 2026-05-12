@@ -4,9 +4,10 @@ import { ShoppingCart, Star, Play, DollarSign } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { motion } from 'framer-motion';
 
-const ProductCard = ({ product, onBuy }) => {
+const ProductCard = ({ product, onBuy, settings: externalSettings }) => {
   const [currency, setCurrency] = useState(() => localStorage.getItem('currency') || 'BDT');
-  const [settings, setSettings] = useState({ usd_rate: 120, homepage_settings: {} });
+  const [settings, setSettings] = useState(externalSettings || { usd_rate: 120, homepage_settings: {} });
+  const [isLoaded, setIsLoaded] = useState(!!externalSettings);
 
   useEffect(() => {
     const handleCurrencyChange = () => {
@@ -15,18 +16,28 @@ const ProductCard = ({ product, onBuy }) => {
     window.addEventListener('currencyChange', handleCurrencyChange);
 
     const fetchSettings = async () => {
+      if (externalSettings) {
+        setSettings(externalSettings);
+        setIsLoaded(true);
+        return;
+      }
+
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/settings`);
         const data = await response.json();
         if (data) {
           setSettings(data);
+          setIsLoaded(true);
         }
-      } catch (err) { console.error(err); }
+      } catch (err) { 
+        console.error(err);
+        setIsLoaded(true); // Still set to true to show fallback if fetch fails
+      }
     };
     fetchSettings();
 
     return () => window.removeEventListener('currencyChange', handleCurrencyChange);
-  }, []);
+  }, [externalSettings]);
 
   const formatPrice = (bdtPrice) => {
     const rate = parseFloat(settings.usd_rate) || 120;
@@ -123,18 +134,22 @@ const ProductCard = ({ product, onBuy }) => {
                   {offer.text || 'Standard Price'}
                 </span>
               )}
-              <div className="flex items-baseline space-x-1.5 sm:space-x-2">
-                {hp.hide_main_price !== true ? (
-                  <>
-                    <span className="text-xl sm:text-2xl font-black text-white tracking-tighter">{formatPrice(product.price)}</span>
-                    {hp.hide_full_price !== true && (
-                      <span className="text-[9px] sm:text-[10px] text-slate-500 line-through font-bold">
-                        {formatPrice(product.price + (parseInt(hp.global_discount_amount) || 500))}
-                      </span>
-                    )}
-                  </>
+              <div className="flex items-baseline space-x-1.5 sm:space-x-2 h-8">
+                {isLoaded ? (
+                  hp.hide_main_price !== true ? (
+                    <>
+                      <span className="text-xl sm:text-2xl font-black text-white tracking-tighter">{formatPrice(product.price)}</span>
+                      {hp.hide_full_price !== true && (
+                        <span className="text-[9px] sm:text-[10px] text-slate-500 line-through font-bold">
+                          {formatPrice(product.price + (parseInt(hp.global_discount_amount) || 500))}
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <span className="text-[10px] font-black text-cyan-500 uppercase tracking-widest">Price on Inquiry</span>
+                  )
                 ) : (
-                  <span className="text-[10px] font-black text-cyan-500 uppercase tracking-widest">Price on Inquiry</span>
+                  <div className="w-24 h-6 bg-white/5 animate-pulse" />
                 )}
               </div>
             </div>

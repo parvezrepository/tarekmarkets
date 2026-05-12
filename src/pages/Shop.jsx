@@ -20,6 +20,7 @@ const Shop = () => {
   const [viewSize, setViewSize] = useState(getInitialView);
 
   const [categories, setCategories] = useState(['All', 'MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators']);
+  const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,21 +35,24 @@ const Shop = () => {
       }
     };
 
-    const fetchCategories = async () => {
+    const fetchSettingsData = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/settings`);
         const data = await response.json();
-        if (data && data.categories) {
-          setCategories(['All', ...data.categories]);
+        if (data) {
+          setSettings(data);
+          if (data.categories) {
+            setCategories(['All', ...data.categories]);
+          }
         }
       } catch (err) {
-        console.error('Categories fetch error:', err);
+        console.error('Settings fetch error:', err);
       }
     };
 
     const init = async () => {
       setLoading(true);
-      await Promise.all([fetchProducts(), fetchCategories()]);
+      await Promise.all([fetchProducts(), fetchSettingsData()]);
       setLoading(false);
     };
     init();
@@ -195,7 +199,7 @@ const Shop = () => {
                     exit={{ opacity: 0, scale: 0.9 }}
                     key={product.id}
                   >
-                    <ProductCard product={product} onBuy={handleBuy} />
+                    <ProductCard product={product} onBuy={handleBuy} settings={settings} />
                   </motion.div>
                 ))
               )}

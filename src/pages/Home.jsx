@@ -249,7 +249,7 @@ const Home = () => {
             ) : (
               <>
                 {products.slice(0, settings.home_product_count || 3).map((product) => (
-                  <ProductCard key={product.id} product={product} onBuy={handleBuy} />
+                  <ProductCard key={product.id} product={product} onBuy={handleBuy} settings={settings} />
                 ))}
 
                 {viewSize === 'small' && products.length > (settings.home_product_count || 3) && (
