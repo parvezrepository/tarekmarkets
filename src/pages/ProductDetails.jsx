@@ -151,7 +151,10 @@ const ProductDetails = () => {
             <div className="flex flex-wrap gap-4 pt-4 w-full">
               {(() => {
                 const productUrl = typeof window !== 'undefined' ? window.location.href : '';
-                const messageText = `Hello! I want to buy ${product.name} for ৳${product.price}.\n\nProduct Link: ${productUrl}`;
+                const showPrice = settings.homepage_settings?.hide_main_price !== true;
+                const messageText = showPrice 
+                  ? `Hello! I want to buy ${product.name} for ৳${product.price}.\n\nProduct Link: ${productUrl}`
+                  : `Hello! I am interested in ${product.name}.\n\nProduct Link: ${productUrl}`;
                 const encodedMessage = encodeURIComponent(messageText);
                 const waNumber = settings.whatsapp ? settings.whatsapp.replace(/[^0-9]/g, '') : '';
                 

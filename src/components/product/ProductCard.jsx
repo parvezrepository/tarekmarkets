@@ -124,9 +124,17 @@ const ProductCard = ({ product, onBuy }) => {
                 </span>
               )}
               <div className="flex items-baseline space-x-1.5 sm:space-x-2">
-                <span className="text-xl sm:text-2xl font-black text-white tracking-tighter">{formatPrice(product.price)}</span>
-                {hp.hide_full_price !== true && (
-                  <span className="text-[9px] sm:text-[10px] text-slate-500 line-through font-bold">{formatPrice(product.price + 500)}</span>
+                {hp.hide_main_price !== true ? (
+                  <>
+                    <span className="text-xl sm:text-2xl font-black text-white tracking-tighter">{formatPrice(product.price)}</span>
+                    {hp.hide_full_price !== true && (
+                      <span className="text-[9px] sm:text-[10px] text-slate-500 line-through font-bold">
+                        {formatPrice(product.price + (parseInt(hp.global_discount_amount) || 500))}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-[10px] font-black text-cyan-500 uppercase tracking-widest">Price on Inquiry</span>
                 )}
               </div>
             </div>

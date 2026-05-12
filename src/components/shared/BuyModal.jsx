@@ -44,7 +44,10 @@ const BuyModal = ({ isOpen, onClose, product }) => {
   };
 
   const productUrl = typeof window !== 'undefined' ? `${window.location.origin}/product/${product.id}` : '';
-  const messageText = `Hello! I want to buy ${product.name} for ${formatPrice(product.price)}.\n\nProduct Link: ${productUrl}`;
+  const showPrice = settings.homepage_settings?.hide_main_price !== true;
+  const messageText = showPrice 
+    ? `Hello! I want to buy ${product.name} for ${formatPrice(product.price)}.\n\nProduct Link: ${productUrl}`
+    : `Hello! I am interested in ${product.name}.\n\nProduct Link: ${productUrl}`;
   const encodedMessage = encodeURIComponent(messageText);
 
   const waNumber = settings.whatsapp ? settings.whatsapp.replace(/[^0-9]/g, '') : '';
@@ -90,7 +93,11 @@ const BuyModal = ({ isOpen, onClose, product }) => {
                 <div>
                   <div className="text-[10px] font-black uppercase tracking-widest text-violet-600 mb-1">Direct Purchase</div>
                   <h3 className="text-xl font-black text-black uppercase tracking-tighter leading-tight">{product.name}</h3>
-                  <div className="text-lg font-black text-black mt-1 tracking-tighter">{formatPrice(product.price)}</div>
+                  {settings.homepage_settings?.hide_main_price !== true ? (
+                    <div className="text-lg font-black text-black mt-1 tracking-tighter">{formatPrice(product.price)}</div>
+                  ) : (
+                    <div className="text-[10px] font-black text-violet-600 uppercase tracking-widest mt-1">Price on Inquiry</div>
+                  )}
                 </div>
               </div>
             </div>

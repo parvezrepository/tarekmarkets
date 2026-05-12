@@ -97,8 +97,32 @@ export const HomepageSettingsUI = ({ settings, setSettings }) => {
             className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${hp.hide_full_price !== true ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
           >
             {hp.hide_full_price !== true ? <Eye size={14} /> : <EyeOff size={14} />}
-            <span>Full Price Visibility</span>
+            <span>Old Price Visibility</span>
           </button>
+          <button 
+            onClick={() => setSettings({...settings, homepage_settings: {...hp, hide_main_price: hp.hide_main_price === true ? false : true}})}
+            className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${hp.hide_main_price !== true ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+          >
+            {hp.hide_main_price !== true ? <Eye size={14} /> : <EyeOff size={14} />}
+            <span>Main Price Visibility</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="p-6 border-b border-slate-100 bg-slate-50/20">
+        <div className="max-w-xs space-y-3">
+          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Global Discount Amount (BDT)</label>
+          <div className="flex items-center space-x-3">
+            <input 
+              type="number" 
+              value={hp.global_discount_amount || 500}
+              onChange={(e) => setSettings({...settings, homepage_settings: {...hp, global_discount_amount: parseInt(e.target.value) || 0}})}
+              className="w-full bg-white border border-slate-200 px-4 py-2.5 text-xs font-black outline-none focus:border-black transition-all text-black" 
+              placeholder="500"
+            />
+            <span className="text-[10px] font-bold text-slate-400 whitespace-nowrap">Added to Base Price</span>
+          </div>
+          <p className="text-[9px] text-slate-400 font-medium italic">This amount will be added to the product price to show the "original" strike-through price.</p>
         </div>
       </div>
 
