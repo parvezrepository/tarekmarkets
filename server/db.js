@@ -13,8 +13,22 @@ if (!supabaseUrl || !supabaseKey) {
     from: () => ({
       select: () => ({
         eq: () => ({
-          single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
+          single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+          select: () => Promise.resolve({ data: [], error: new Error('Supabase not configured') })
+        }),
+        order: () => Promise.resolve({ data: [], error: new Error('Supabase not configured') }),
+        single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
+      }),
+      insert: () => ({
+        select: () => Promise.resolve({ data: [], error: new Error('Supabase not configured') })
+      }),
+      update: () => ({
+        eq: () => ({
+          select: () => Promise.resolve({ data: [], error: new Error('Supabase not configured') })
         })
+      }),
+      delete: () => ({
+        eq: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
       })
     })
   };
