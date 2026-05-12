@@ -9,6 +9,9 @@ const BuyModal = ({ isOpen, onClose, product }) => {
     telegram: "digimart_official",
     usd_rate: 120
   });
+  const [step, setStep] = useState(1); // 1: Lead Capture, 2: Links
+  const [leadData, setLeadData] = useState({ name: '', email: '', whatsapp: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -55,6 +58,37 @@ const BuyModal = ({ isOpen, onClose, product }) => {
 
   const whatsappUrl = `https://wa.me/${waNumber}?text=${encodedMessage}`;
   const telegramUrl = `https://t.me/${tgUsername}?text=${encodedMessage}`;
+
+  const handleLeadSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/orders`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customer_name: leadData.name,
+          customer_email: leadData.email,
+          customer_whatsapp: leadData.whatsapp,
+          product_id: product.id,
+          amount: product.price,
+          currency: currency,
+          status: 'Pending'
+        })
+      });
+
+      if (response.ok) {
+        setStep(2);
+      }
+    } catch (err) {
+      console.error('Order creation error:', err);
+      // Still proceed to links if DB fails, don't block the user
+      setStep(2);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -113,13 +147,56 @@ const BuyModal = ({ isOpen, onClose, product }) => {
 
             {/* Selection Area */}
             <div className="p-8 space-y-6">
-              <div className="text-center space-y-2 mb-8">
-                <p className="text-sm font-bold text-slate-400 uppercase tracking-tight">Contact support to complete purchase</p>
-                <div className="flex items-center justify-center space-x-2 text-[10px] font-black text-emerald-500 uppercase tracking-widest">
-                  <ShieldCheck size={12} />
-                  <span>Secure Direct Transaction</span>
-                </div>
-              </div>
+              {step === 1 ? (
+                <form onSubmit={handleLeadSubmit} className="space-y-5">
+                  <div className="text-center space-y-2 mb-6">
+                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Personalize Your Order</p>
+                    <h4 className="text-sm font-black text-white uppercase tracking-tight">Enter details to continue</h4>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <input 
+                      required
+                      type="text"
+                      placeholder="Your Full Name"
+                      value={leadData.name}
+                      onChange={(e) => setLeadData({...leadData, name: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 px-5 py-4 text-xs font-bold text-white outline-none focus:border-cyan-500 transition-all"
+                    />
+                    <input 
+                      required
+                      type="email"
+                      placeholder="Your Email Address"
+                      value={leadData.email}
+                      onChange={(e) => setLeadData({...leadData, email: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 px-5 py-4 text-xs font-bold text-white outline-none focus:border-cyan-500 transition-all"
+                    />
+                    <input 
+                      type="text"
+                      placeholder="WhatsApp Number (Optional)"
+                      value={leadData.whatsapp}
+                      onChange={(e) => setLeadData({...leadData, whatsapp: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 px-5 py-4 text-xs font-bold text-white outline-none focus:border-cyan-500 transition-all"
+                    />
+                  </div>
+
+                  <button 
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-cyan-500 text-black py-5 font-black uppercase tracking-widest text-[11px] hover:bg-white transition-all shadow-xl shadow-cyan-500/10 disabled:opacity-50"
+                  >
+                    {isSubmitting ? 'Registering Intent...' : 'Continue to Purchase'}
+                  </button>
+                </form>
+              ) : (
+                <>
+                  <div className="text-center space-y-2 mb-8">
+                    <p className="text-sm font-bold text-slate-400 uppercase tracking-tight">Contact support to complete purchase</p>
+                    <div className="flex items-center justify-center space-x-2 text-[10px] font-black text-emerald-500 uppercase tracking-widest">
+                      <ShieldCheck size={12} />
+                      <span>Secure Direct Transaction</span>
+                    </div>
+                  </div>
 
               <div className="grid grid-cols-1 gap-4">
                 <a 
@@ -155,7 +232,7 @@ const BuyModal = ({ isOpen, onClose, product }) => {
                 </a>
               </div>
 
-              <p className="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest pt-4">
+              <p className="text-[9px] text-center text-slate-500 font-bold uppercase tracking-widest pt-4">
                 Available 24/7 for instant delivery & licensing.
               </p>
             </div>

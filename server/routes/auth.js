@@ -20,14 +20,10 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid Credentials' });
     }
 
-    // Verify password (assuming it's hashed in DB)
+    // Verify password strictly with bcrypt hash
     const isMatch = await bcrypt.compare(password, admin.password);
     
-    // Fallback for initial setup (if password is not hashed, e.g. plain text for first admin)
-    // In production, ALWAYS use hashed passwords.
-    const isPlainMatch = password === admin.password;
-
-    if (!isMatch && !isPlainMatch) {
+    if (!isMatch) {
       return res.status(400).json({ message: 'Invalid Credentials' });
     }
 
