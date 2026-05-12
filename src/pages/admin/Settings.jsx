@@ -145,7 +145,7 @@ const Settings = () => {
                 value={settings.announcement}
                 onChange={(e) => setSettings({...settings, announcement: e.target.value})}
                 rows="2"
-                className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all resize-none"
+                className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black resize-none"
               />
               <p className="text-[10px] text-slate-400 font-bold italic uppercase tracking-wider">This message appears at the very top of all pages.</p>
             </div>
@@ -178,7 +178,7 @@ const Settings = () => {
                       type="text" 
                       value={t.image}
                       onChange={(e) => updateTestimonial(i, e.target.value)}
-                      className="w-full bg-white border border-slate-200 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all" 
+                      className="w-full bg-white border border-slate-200 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all text-black" 
                       placeholder="https://..."
                     />
                   </div>
@@ -230,7 +230,7 @@ const Settings = () => {
                         updated[i].question = e.target.value;
                         setSettings({...settings, faqs: updated});
                       }}
-                      className="w-full bg-white border border-slate-200 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all" 
+                      className="w-full bg-white border border-slate-200 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all text-black" 
                     />
                   </div>
                   <div className="space-y-2">
@@ -243,7 +243,7 @@ const Settings = () => {
                         setSettings({...settings, faqs: updated});
                       }}
                       rows="3"
-                      className="w-full bg-white border border-slate-200 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all resize-none" 
+                      className="w-full bg-white border border-slate-200 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all text-black resize-none" 
                     />
                   </div>
                 </div>
@@ -278,7 +278,7 @@ const Settings = () => {
                     type="number" 
                     value={settings.usd_rate}
                     onChange={(e) => setSettings({...settings, usd_rate: parseFloat(e.target.value) || 0})}
-                    className="w-full bg-white border border-violet-200 px-4 py-2.5 text-xs font-black outline-none focus:border-violet-600 transition-all" 
+                    className="w-full bg-white border border-violet-200 px-4 py-2.5 text-xs font-black outline-none focus:border-violet-600 transition-all text-black" 
                   />
                 </div>
               </div>
@@ -293,7 +293,7 @@ const Settings = () => {
                     type="text" 
                     value={settings.bkash}
                     onChange={(e) => setSettings({...settings, bkash: e.target.value})}
-                    className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all" 
+                    className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black" 
                   />
                 </div>
                 <div className="space-y-4">
@@ -305,7 +305,7 @@ const Settings = () => {
                     type="text" 
                     value={settings.nagad}
                     onChange={(e) => setSettings({...settings, nagad: e.target.value})}
-                    className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all" 
+                    className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black" 
                   />
                 </div>
               </div>
@@ -328,7 +328,7 @@ const Settings = () => {
                   type="text" 
                   value={settings.siteName}
                   onChange={(e) => setSettings({...settings, siteName: e.target.value})}
-                  className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all" 
+                  className="w-full bg-slate-50 border border-slate-100 px-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black" 
                 />
               </div>
               <div className="space-y-4">
@@ -339,7 +339,7 @@ const Settings = () => {
                     type="text" 
                     value={settings.whatsapp}
                     onChange={(e) => setSettings({...settings, whatsapp: e.target.value})}
-                    className="w-full bg-slate-50 border border-slate-100 pl-14 pr-6 py-4 text-sm font-bold outline-none focus:border-black transition-all" 
+                    className="w-full bg-slate-50 border border-slate-100 pl-14 pr-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black" 
                   />
                 </div>
               </div>
@@ -351,7 +351,7 @@ const Settings = () => {
                     type="text" 
                     value={settings.telegram}
                     onChange={(e) => setSettings({...settings, telegram: e.target.value})}
-                    className="w-full bg-slate-50 border border-slate-100 pl-14 pr-6 py-4 text-sm font-bold outline-none focus:border-black transition-all" 
+                    className="w-full bg-slate-50 border border-slate-100 pl-14 pr-6 py-4 text-sm font-bold outline-none focus:border-black transition-all text-black" 
                     placeholder="username"
                   />
                 </div>
@@ -380,7 +380,7 @@ const Settings = () => {
                   type="text" 
                   value={settings.facebook || ''}
                   onChange={(e) => setSettings({...settings, facebook: e.target.value})}
-                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all" 
+                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all text-black" 
                   placeholder="https://facebook.com/..."
                 />
               </div>
@@ -390,7 +390,7 @@ const Settings = () => {
                   type="text" 
                   value={settings.twitter || ''}
                   onChange={(e) => setSettings({...settings, twitter: e.target.value})}
-                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all" 
+                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all text-black" 
                   placeholder="https://twitter.com/..."
                 />
               </div>
@@ -400,7 +400,7 @@ const Settings = () => {
                   type="text" 
                   value={settings.instagram || ''}
                   onChange={(e) => setSettings({...settings, instagram: e.target.value})}
-                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all" 
+                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all text-black" 
                   placeholder="https://instagram.com/..."
                 />
               </div>
@@ -410,7 +410,7 @@ const Settings = () => {
                   type="text" 
                   value={settings.youtube || ''}
                   onChange={(e) => setSettings({...settings, youtube: e.target.value})}
-                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all" 
+                  className="w-full bg-slate-50 border border-slate-100 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all text-black" 
                   placeholder="https://youtube.com/..."
                 />
               </div>
