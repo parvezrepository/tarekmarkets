@@ -18,10 +18,10 @@ const Footer = () => {
 
   // সোশ্যাল মিডিয়া লিঙ্কগুলো এখানে পরিবর্তন করুন
   const socialLinks = [
-    { Icon: Facebook, url: "https://facebook.com/your-page" }, // আপনার ফেসবুক লিঙ্ক দিন
-    { Icon: Twitter, url: "https://twitter.com/your-profile" }, // আপনার টুইটার লিঙ্ক দিন
-    { Icon: Instagram, url: "https://instagram.com/your-profile" }, // আপনার ইন্সটাগ্রাম লিঙ্ক দিন
-    { Icon: Youtube, url: "https://youtube.com/your-channel" }, // আপনার ইউটিউব লিঙ্ক দিন
+    { Icon: Facebook, url: settings.facebook || "#" },
+    { Icon: Twitter, url: settings.twitter || "#" },
+    { Icon: Instagram, url: settings.instagram || "#" },
+    { Icon: Youtube, url: settings.youtube || "#" },
   ];
 
   return (
