@@ -74,6 +74,27 @@ export const HomepageSettingsUI = ({ settings, setSettings }) => {
           <h3 className="font-black text-black uppercase tracking-widest text-xs">Homepage Text Settings</h3>
         </div>
       </div>
+
+      <div className="p-6 border-b border-slate-100 bg-white">
+        <h4 className="font-black text-xs uppercase tracking-widest text-slate-800 mb-4">Section Visibility</h4>
+        <div className="flex flex-wrap gap-4">
+          <button 
+            onClick={() => setSettings({...settings, homepage_settings: {...settings.homepage_settings, show_proof_section: settings.homepage_settings.show_proof_section !== false ? false : true}})}
+            className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${settings.homepage_settings.show_proof_section !== false ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+          >
+            {settings.homepage_settings.show_proof_section !== false ? <Eye size={14} /> : <EyeOff size={14} />}
+            <span>Proof Gallery Section</span>
+          </button>
+          <button 
+            onClick={() => setSettings({...settings, homepage_settings: {...settings.homepage_settings, show_faq_section: settings.homepage_settings.show_faq_section !== false ? false : true}})}
+            className={`flex items-center space-x-2 px-4 py-2 border text-xs font-black uppercase tracking-widest transition-all ${settings.homepage_settings.show_faq_section !== false ? 'border-green-200 bg-green-50 text-green-700' : 'border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+          >
+            {settings.homepage_settings.show_faq_section !== false ? <Eye size={14} /> : <EyeOff size={14} />}
+            <span>FAQ & Support Section</span>
+          </button>
+        </div>
+      </div>
+
       <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-slate-50/30">
         <HpSettingField title="Hero Badge" fieldName="hero_badge" settings={settings} setSettings={setSettings} />
         <HpSettingField title="Hero Title" fieldName="hero_title" settings={settings} setSettings={setSettings} />
