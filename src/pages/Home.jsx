@@ -40,7 +40,14 @@ const FAQItem = ({ faq, isOpen, toggle }) => (
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [settings, setSettings] = useState(null);
+  const [settings, setSettings] = useState({
+    testimonials: [],
+    faqs: [],
+    whatsapp: '',
+    telegram: '',
+    home_product_count: 3,
+    loaded: false // Flag to prevent price blinking
+  });
   const getInitialView = () => {
     const saved = localStorage.getItem('productViewSize');
     return saved === 'large' ? 'large' : 'small';
@@ -97,7 +104,9 @@ const Home = () => {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/settings`);
         const data = await response.json();
         if (data && Object.keys(data).length > 0) {
-          setSettings(data);
+          setSettings({ ...data, loaded: true });
+        } else {
+          setSettings(prev => ({ ...prev, loaded: true }));
         }
       } catch (err) { console.error(err); }
     };
@@ -132,7 +141,7 @@ const Home = () => {
   };
 
   // Duplicate testimonials for seamless loop
-  const displayTestimonials = [...(settings?.testimonials || []), ...(settings?.testimonials || [])];
+  const displayTestimonials = [...(settings.testimonials || []), ...(settings.testimonials || [])];
 
   useEffect(() => {
     localStorage.setItem('productViewSize', viewSize);
@@ -143,7 +152,7 @@ const Home = () => {
     return 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6';
   };
 
-  const hp = settings?.homepage_settings || {};
+  const hp = settings.homepage_settings || {};
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -239,14 +248,14 @@ const Home = () => {
 
           <div className={`grid ${getGridClass()} ${viewSize === 'large' ? 'mb-16' : ''}`}>
             {loading ? (
-              [...Array(settings?.home_product_count || 3)].map((_, i) => <ProductCardSkeleton key={i} />)
+              [...Array(settings.home_product_count || 3)].map((_, i) => <ProductCardSkeleton key={i} />)
             ) : (
               <>
                 {products.slice(0, settings.home_product_count || 3).map((product) => (
                   <ProductCard key={product.id} product={product} onBuy={handleBuy} settings={settings} />
                 ))}
 
-                {viewSize === 'small' && products.length > (settings?.home_product_count || 3) && (
+                {viewSize === 'small' && products.length > (settings.home_product_count || 3) && (
                   <Link 
                     to="/shop" 
                     className="group flex flex-col items-center justify-center h-full min-h-[250px] bg-[#0a0a0a] border border-cyan-500/30 hover:bg-cyan-500 hover:border-cyan-500 transition-all text-center p-6 shadow-xl shadow-cyan-500/5"
@@ -261,7 +270,7 @@ const Home = () => {
             )}
           </div>
           
-          {viewSize === 'large' && products.length > (settings?.home_product_count || 3) && (
+          {viewSize === 'large' && products.length > (settings.home_product_count || 3) && (
             <div className="flex justify-center">
               <Link 
                 to="/shop" 
@@ -325,7 +334,7 @@ const Home = () => {
                   </div>
                   
                   <div className="bg-white dark:bg-[#0a0a0a]/40 border border-slate-100 dark:border-slate-800 p-6 md:p-8 shadow-xl">
-                    {settings?.faqs?.length > 0 ? (
+                    {settings.faqs?.length > 0 ? (
                       settings.faqs.slice(0, 6).map((faq, i) => (
                         <FAQItem 
                           key={i} 

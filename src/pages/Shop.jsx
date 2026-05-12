@@ -40,7 +40,7 @@ const Shop = () => {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/settings`);
         const data = await response.json();
         if (data) {
-          setSettings(data);
+          setSettings({ ...data, loaded: true });
           if (data.categories) {
             setCategories(['All', ...data.categories]);
           }

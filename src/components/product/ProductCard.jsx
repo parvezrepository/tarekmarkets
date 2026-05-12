@@ -7,7 +7,8 @@ import { motion } from 'framer-motion';
 const ProductCard = ({ product, onBuy, settings: externalSettings }) => {
   const [currency, setCurrency] = useState(() => localStorage.getItem('currency') || 'BDT');
   const [settings, setSettings] = useState(externalSettings || { usd_rate: 120, homepage_settings: {} });
-  const [isLoaded, setIsLoaded] = useState(!!externalSettings && Object.keys(externalSettings).length > 0);
+  // isLoaded is true only if settings are actually fetched from the DB
+  const [isLoaded, setIsLoaded] = useState(!!(externalSettings && externalSettings.loaded));
 
   useEffect(() => {
     const handleCurrencyChange = () => {
@@ -16,23 +17,18 @@ const ProductCard = ({ product, onBuy, settings: externalSettings }) => {
     window.addEventListener('currencyChange', handleCurrencyChange);
 
     const fetchSettings = async () => {
-      if (externalSettings && Object.keys(externalSettings).length > 0) {
+      if (externalSettings && externalSettings.loaded) {
         setSettings(externalSettings);
         setIsLoaded(true);
         return;
       }
 
-      // If we got null or empty settings from prop, we might need to fetch or wait
-      if (externalSettings === null) {
-          setIsLoaded(false);
-          return;
-      }
-
+      // If we don't have external loaded settings, we fetch internally
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/settings`);
         const data = await response.json();
         if (data) {
-          setSettings(data);
+          setSettings({ ...data, loaded: true });
           setIsLoaded(true);
         }
       } catch (err) { 
