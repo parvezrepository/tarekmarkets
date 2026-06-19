@@ -27,7 +27,7 @@ const Settings = () => {
   const [saving, setSaving] = useState(false);
   
   const [settings, setSettings] = useState({
-    sitename: 'TradeKit',
+    sitename: 'Tarek Markets',
     whatsapp: '+8801700000000',
     telegram: 'digimart_official',
     bkash: '01700-000000',

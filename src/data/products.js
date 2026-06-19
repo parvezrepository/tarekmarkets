@@ -1,134 +1,68 @@
 export const products = [
   {
     id: 1,
-    name: "Forex Auto Trade Bot",
-    category: "Automation Tools",
-    price: 2500,
-    rating: 4.8,
-    reviews: 124,
+    name: "Binary Trading Course",
+    category: "Binary Trading",
+    price: 5000,
+    rating: 4.9,
+    reviews: 342,
     badge: "HOT",
-    description: "A high-performance automated trading bot designed for consistent results in the forex market. Features advanced risk management and multi-currency support.",
+    description: "Master the art of Binary Options trading. Learn price action, candlestick psychology, and exact entry/exit strategies for high win rates.",
     features: [
-      "Fully Automated Trading",
-      "Risk Management Settings",
-      "Multi-Currency Support",
-      "Real-time Performance Tracking",
-      "Lifetime Updates"
+      "50+ HD Video Lessons",
+      "Price Action Strategies",
+      "Money Management Rules",
+      "Live Trading Examples",
+      "Lifetime Access"
     ],
     faqs: [
-      { q: "Is it suitable for beginners?", a: "Yes, it comes with a complete setup guide." },
-      { q: "Which broker should I use?", a: "Any broker with MT4/MT5 support." }
+      { q: "Is it suitable for beginners?", a: "Yes, we start from the very basics." },
+      { q: "Which broker is recommended?", a: "Quotex or IQ Option work best for these strategies." }
     ],
-    image: "https://images.unsplash.com/photo-1611974714658-66d1456070bd?auto=format&fit=crop&q=80&w=800"
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800"
   },
   {
     id: 2,
-    name: "RSI Divergence MT4 Indicator",
-    category: "MT4 Indicators",
-    price: 800,
-    rating: 4.5,
-    reviews: 89,
-    badge: "NEW",
-    description: "Professional RSI Divergence indicator that identifies trend reversals with high accuracy. Includes alert system for mobile and desktop.",
+    name: "Forex Trading Course",
+    category: "Forex Trading",
+    price: 8000,
+    rating: 4.8,
+    reviews: 512,
+    badge: "BESTSELLER",
+    description: "Comprehensive Forex trading course covering everything from technical analysis and fundamentals to advanced institutional trading concepts (SMC).",
     features: [
-      "Hidden & Regular Divergence",
-      "Push Notifications",
-      "Email Alerts",
-      "Customizable Colors",
-      "Non-Repainting"
+      "Institutional Trading Concepts",
+      "Smart Money Concepts (SMC)",
+      "Risk Management Framework",
+      "Prop Firm Passing Guide",
+      "Private Discord Community"
     ],
     faqs: [
-      { q: "Does it repaint?", a: "No, it is a non-repainting indicator." },
-      { q: "Works on all timeframes?", a: "Yes, optimized for M15 to D1." }
+      { q: "Do I need prior experience?", a: "No, the course covers everything A-Z." },
+      { q: "Does it cover MT4/MT5?", a: "Yes, full platform tutorials are included." }
     ],
     image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800"
   },
   {
     id: 3,
-    name: "News Filter EA",
-    category: "Automation Tools",
-    price: 1800,
+    name: "Crypto Trading Course",
+    category: "Crypto Trading",
+    price: 6000,
     rating: 4.7,
-    reviews: 56,
-    badge: "SALE",
-    description: "Protect your trades from high-impact news events. This EA automatically pauses your trading during volatile news releases.",
-    features: [
-      "Auto News Update",
-      "Custom Filter Settings",
-      "Supports All Major Currencies",
-      "Dashboard Interface",
-      "Lightweight Code"
-    ],
-    faqs: [
-      { q: "Does it work with any EA?", a: "Yes, it can pause any running EA." },
-      { q: "Where does it get news data?", a: "From Investing.com and ForexFactory." }
-    ],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    id: 4,
-    name: "Trend Master Indicator",
-    category: "MT4 Indicators",
-    price: 1200,
-    rating: 4.9,
-    reviews: 210,
-    badge: "HOT",
-    description: "The ultimate trend-following indicator. Uses a combination of moving averages and momentum oscillators to find the perfect entry.",
-    features: [
-      "Trend Strength Meter",
-      "Entry & Exit Signals",
-      "High Probability Zones",
-      "No Lag Algorithm",
-      "Clean UI"
-    ],
-    faqs: [
-      { q: "Is there a trial version?", a: "We offer a 7-day money-back guarantee." },
-      { q: "Support provided?", a: "24/7 technical support included." }
-    ],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    id: 5,
-    name: "Account Manager Software",
-    category: "Software",
-    price: 3500,
-    rating: 4.6,
-    reviews: 42,
+    reviews: 289,
     badge: "NEW",
-    description: "Manage multiple MT4 accounts from a single interface. Sync trades, copy signals, and monitor performance across all your portfolios.",
+    description: "Learn how to trade cryptocurrencies profitably. Covers spot trading, futures, leverage management, and identifying altcoin gems.",
     features: [
-      "Multi-Account Sync",
-      "Trade Copier Function",
-      "Equity Protection",
-      "detailed Reporting",
-      "Cloud Integration"
+      "Spot & Futures Trading",
+      "Leverage & Margin Rules",
+      "On-chain Analysis",
+      "Portfolio Diversification",
+      "Weekly Market Updates"
     ],
     faqs: [
-      { q: "How many accounts can I link?", a: "Up to 50 accounts in the pro version." },
-      { q: "Is it secure?", a: "End-to-end encryption for all data." }
+      { q: "Which exchanges are used?", a: "Binance, Bybit, and OKX primarily." },
+      { q: "Will I learn about NFTs?", a: "We mainly focus on trading coins/tokens." }
     ],
-    image: "https://images.unsplash.com/photo-1537511446984-935f663eb1f4?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    id: 6,
-    name: "Gold Scalper EA",
-    category: "MT4 Indicators",
-    price: 2000,
-    rating: 4.8,
-    reviews: 156,
-    badge: "SALE",
-    description: "Specialized Expert Advisor for XAUUSD (Gold). Optimized for small price movements with tight stop losses and high win rates.",
-    features: [
-      "Optimized for Gold",
-      "Scalping Strategy",
-      "Hard Stop Loss",
-      "News Avoidance",
-      "Daily Profit Target"
-    ],
-    faqs: [
-      { q: "Minimum balance?", a: "Recommended $500 minimum." },
-      { q: "Which timeframe?", a: "M1 and M5 timeframes." }
-    ],
-    image: "https://images.unsplash.com/photo-1535320903710-d993d3d77d29?auto=format&fit=crop&q=80&w=800"
+    image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&q=80&w=800"
   }
 ];

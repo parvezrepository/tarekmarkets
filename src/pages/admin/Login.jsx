@@ -51,7 +51,7 @@ const Login = () => {
             <Cpu size={36} />
           </div>
           <h1 className="text-4xl font-black font-heading text-black uppercase tracking-tighter">Admin Portal</h1>
-          <p className="text-slate-500 font-medium mt-3">Sign in to manage TradeKit marketplace</p>
+          <p className="text-slate-500 font-medium mt-3">Sign in to manage Tarek Markets</p>
         </div>
 
         <div className="bg-white border border-slate-200 p-10 shadow-2xl shadow-slate-100">
@@ -113,7 +113,7 @@ const Login = () => {
         </div>
 
         <p className="text-center text-slate-400 text-[10px] font-black uppercase tracking-widest mt-12">
-          &copy; 2026 TradeKit Global Systems
+          &copy; 2026 Tarek Markets Global Systems
         </p>
       </motion.div>
     </div>

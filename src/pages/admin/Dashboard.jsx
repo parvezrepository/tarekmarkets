@@ -138,10 +138,9 @@ const Dashboard = () => {
           <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Best Performing</h3>
           <div className="space-y-6">
             {[
-              { name: 'Gold Scalper EA', sales: 420, growth: '+20%', color: 'bg-black dark:bg-white' },
-              { name: 'Forex Trade Bot', sales: 310, growth: '+15%', color: 'bg-violet-600' },
-              { name: 'News Filter EA', sales: 250, growth: '+8%', color: 'bg-emerald-500' },
-              { name: 'RSI Divergence', sales: 180, growth: '+5%', color: 'bg-rose-500' },
+              { name: 'Binary Trading Course', sales: 420, growth: '+20%', color: 'bg-black dark:bg-white' },
+              { name: 'Forex Trading Course', sales: 310, growth: '+15%', color: 'bg-violet-600' },
+              { name: 'Crypto Trading Course', sales: 250, growth: '+8%', color: 'bg-emerald-500' }
             ].map((item) => (
               <div key={item.name} className="flex items-center justify-between group">
                 <div className="flex items-center space-x-4">

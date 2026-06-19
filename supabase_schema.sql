@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS products (
 -- 3. Settings Table
 CREATE TABLE IF NOT EXISTS settings (
     id SERIAL PRIMARY KEY,
-    sitename TEXT DEFAULT 'TradeKit',
+    sitename TEXT DEFAULT 'Tarek Markets',
     announcement TEXT,
     whatsapp TEXT,
     telegram TEXT,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS settings (
     home_product_count INTEGER DEFAULT 3,
     usd_rate DECIMAL(10, 2) DEFAULT 120.00,
     homepage_settings JSONB DEFAULT '{}'::jsonb,
-    categories JSONB DEFAULT '["MT4 Indicators", "Forex Robots", "Trading Tools", "Indicators"]'::jsonb,
+    categories JSONB DEFAULT '["Binary Trading", "Forex Trading", "Crypto Trading"]'::jsonb,
     testimonials JSONB DEFAULT '[]'::jsonb,
     faqs JSONB DEFAULT '[]'::jsonb,
     privacy_policy TEXT,
@@ -84,18 +84,18 @@ INSERT INTO settings (
     announcement, 
     whatsapp, 
     telegram, 
-    usd_rate, 
+    usd_rate,  
     privacy_policy, 
     terms_of_service, 
     affiliate_program
 ) 
 VALUES (
-    '🚀 Flash Sale: Get 20% Off on all MT4 Indicators!', 
+    '🚀 Flash Sale: Get 20% Off on all Trading Courses!', 
     '+880123456789', 
     't.me/tradekit', 
     120.00,
     '<h1>Privacy Policy</h1><p>Welcome to TradeKit. We value your privacy and are committed to protecting your personal data. This policy outlines how we collect, use, and safeguard your information when you visit our marketplace.</p><h2>Information Collection</h2><p>We collect basic information such as name, email, and contact details only when you initiate a purchase or contact our support team.</p><h2>Data Security</h2><p>Your security is our priority. We use industry-standard encryption to protect your data during transactions.',
     '<h1>Terms of Service</h1><p>By accessing TradeKit, you agree to comply with these terms. Our digital products are provided "as is" and are intended for educational and professional trading purposes.</p><h2>Usage License</h2><p>Upon purchase, you are granted a non-transferable license to use the software for personal or commercial trading accounts as specified in the product description.',
-    '<h1>Affiliate Program</h1><p>Join the TradeKit Affiliate Network and earn commissions on every successful referral. We offer competitive rates and real-time tracking for our partners.</p><h2>Commission Structure</h2><p>Earn up to 20% commission on every indicator or robot sold through your unique referral link.</p><h2>Payouts</h2><p>Payments are processed monthly via bKash, Nagad, or Crypto once you reach the minimum threshold.'
+    '<h1>Affiliate Program</h1><p>Join the TradeKit Affiliate Network and earn commissions on every successful referral. We offer competitive rates and real-time tracking for our partners.</p><h2>Commission Structure</h2><p>Earn up to 20% commission on every course sold through your unique referral link.</p><h2>Payouts</h2><p>Payments are processed monthly via bKash, Nagad, or Crypto once you reach the minimum threshold.'
 )
 ON CONFLICT DO NOTHING;

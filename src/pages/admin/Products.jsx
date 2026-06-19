@@ -16,6 +16,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../lib/supabase';
+import { products as productsData } from '../../data/products';
 import { TableRowSkeleton } from '../../components/shared/Skeleton';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
@@ -23,7 +24,7 @@ import 'react-quill-new/dist/quill.snow.css';
 const Products = () => {
   const { getAuthHeader } = useAuth();
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState(['MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators']);
+  const [categories, setCategories] = useState(['Binary Trading', 'Forex Trading', 'Crypto Trading']);
   const [loading, setLoading] = useState(true);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,7 +37,7 @@ const Products = () => {
   // Form State
   const initialForm = {
     name: '',
-    category: categories[0] || 'MT4 Indicators',
+    category: categories[0] || 'Binary Trading',
     price: '',
     old_price: '',
     badge: '',
@@ -53,9 +54,14 @@ const Products = () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
       const data = await response.json();
-      setProducts(data);
+      if (data && data.length > 0 && !data.message) {
+        setProducts(data);
+      } else {
+        setProducts(productsData);
+      }
     } catch (err) {
       console.error('Fetch error:', err);
+      setProducts(productsData);
     }
   };
 
@@ -155,27 +161,36 @@ const Products = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    const url = isEditMode 
-      ? `${import.meta.env.VITE_API_URL}/products/${editingId}`
-      : `${import.meta.env.VITE_API_URL}/products`;
-    
-    const method = isEditMode ? 'PUT' : 'POST';
+    // Strict payload to avoid sending extra mock fields like 'faqs' and 'reviews' to Supabase
+    const payload = {
+      name: formData.name,
+      category: formData.category,
+      price: formData.price,
+      old_price: formData.old_price || null,
+      badge: formData.badge || null,
+      description: formData.description,
+      image: formData.image,
+      video_url: formData.video_url,
+      features: [...(formData.features || [])]
+    };
 
-    const payload = { ...formData };
     if (extendedHtml && extendedHtml.trim() !== '') {
-      payload.features = [...(payload.features || []), { is_html_details: true, content: extendedHtml }];
+      payload.features.push({ is_html_details: true, content: extendedHtml });
     }
     if (productTags && productTags.trim() !== '') {
-      payload.features = [...(payload.features || []), { is_tags_list: true, tags: productTags }];
+      payload.features.push({ is_tags_list: true, tags: productTags });
     }
-    
-    delete payload.id;
-    delete payload.created_at;
-    delete payload.rating;
+
+    // If editingId is a number from mock data, we must POST it as a new product instead of PUT
+    const isMockData = isEditMode && typeof editingId === 'number';
+    const finalMethod = (isEditMode && !isMockData) ? 'PUT' : 'POST';
+    const finalUrl = (isEditMode && !isMockData)
+      ? `${import.meta.env.VITE_API_URL}/products/${editingId}`
+      : `${import.meta.env.VITE_API_URL}/products`;
 
     try {
-      const response = await fetch(url, {
-        method,
+      const response = await fetch(finalUrl, {
+        method: finalMethod,
         headers: {
           'Content-Type': 'application/json',
           ...getAuthHeader()

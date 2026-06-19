@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { products as productsData } from '../data/products';
 import ProductCard from '../components/product/ProductCard';
 import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, CheckCircle2 } from 'lucide-react';
 import BuyModal from '../components/shared/BuyModal';
@@ -19,7 +20,7 @@ const Shop = () => {
   };
   const [viewSize, setViewSize] = useState(getInitialView);
 
-  const [categories, setCategories] = useState(['All', 'MT4 Indicators', 'Forex Robots', 'Trading Tools', 'Indicators']);
+  const [categories, setCategories] = useState(['All', 'Binary Trading', 'Forex Trading', 'Crypto Trading']);
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -28,10 +29,17 @@ const Shop = () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
         const data = await response.json();
-        setProducts(data);
-        setFilteredProducts(data);
+        if (data && data.length > 0 && !data.message) {
+          setProducts(data);
+          setFilteredProducts(data);
+        } else {
+          setProducts(productsData);
+          setFilteredProducts(productsData);
+        }
       } catch (err) {
         console.error('Products fetch error:', err);
+        setProducts(productsData);
+        setFilteredProducts(productsData);
       }
     };
 
@@ -104,15 +112,15 @@ const Shop = () => {
       <section className="bg-black py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-violet-600/5 blur-[100px]" />
         <div className="container mx-auto px-6 relative z-10 text-center">
-          <div className="text-[10px] font-black text-violet-500 uppercase tracking-widest mb-4">Marketplace</div>
-          <h1 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter mb-8">Professional Assets</h1>
+          <div className="text-[10px] font-black text-violet-500 uppercase tracking-widest mb-4">Course Library</div>
+          <h1 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter mb-8">Professional Courses</h1>
           
           {/* Advanced Search Bar */}
           <div className="max-w-2xl mx-auto relative group">
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-violet-500 transition-colors" size={20} />
             <input 
               type="text" 
-              placeholder="Search indicators, bots, filter by name..."
+              placeholder="Search courses, topics, filter by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full bg-white/5 border border-white/10 px-16 py-6 text-white font-bold outline-none focus:border-violet-600 transition-all text-sm"
@@ -211,7 +219,7 @@ const Shop = () => {
               <div className="w-16 h-16 bg-slate-50 flex items-center justify-center mx-auto mb-6 text-slate-300">
                 <Search size={32} />
               </div>
-              <h3 className="text-xl font-black uppercase tracking-tighter text-slate-300">No matching assets found</h3>
+              <h3 className="text-xl font-black uppercase tracking-tighter text-slate-300">No matching courses found</h3>
               <button 
                 onClick={() => { setSearchTerm(''); setSelectedCategory('All'); }}
                 className="mt-6 text-[10px] font-black text-violet-600 uppercase tracking-widest hover:underline"

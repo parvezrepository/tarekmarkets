@@ -9,9 +9,7 @@ const BuyModal = ({ isOpen, onClose, product }) => {
     telegram: "digimart_official",
     usd_rate: 120
   });
-  const [step, setStep] = useState(1); // 1: Lead Capture, 2: Links
-  const [leadData, setLeadData] = useState({ name: '', email: '', whatsapp: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Lead capture removed as per request
 
   useEffect(() => {
     if (isOpen) {
@@ -61,33 +59,6 @@ const BuyModal = ({ isOpen, onClose, product }) => {
 
   const handleLeadSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/orders`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          customer_name: leadData.name,
-          customer_email: leadData.email,
-          customer_whatsapp: leadData.whatsapp,
-          product_id: product.id,
-          amount: product.price,
-          currency: currency,
-          status: 'Pending'
-        })
-      });
-
-      if (response.ok) {
-        setStep(2);
-      }
-    } catch (err) {
-      console.error('Order creation error:', err);
-      // Still proceed to links if DB fails, don't block the user
-      setStep(2);
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (
@@ -147,96 +118,53 @@ const BuyModal = ({ isOpen, onClose, product }) => {
 
             {/* Selection Area */}
             <div className="p-8 space-y-6">
-              {step === 1 ? (
-                <form onSubmit={handleLeadSubmit} className="space-y-5">
-                  <div className="text-center space-y-2 mb-6">
-                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Personalize Your Order</p>
-                    <h4 className="text-sm font-black text-white uppercase tracking-tight">Enter details to continue</h4>
+              <>
+                <div className="text-center space-y-2 mb-8">
+                  <p className="text-sm font-bold text-slate-400 uppercase tracking-tight">Contact support to complete purchase</p>
+                  <div className="flex items-center justify-center space-x-2 text-[10px] font-black text-emerald-500 uppercase tracking-widest">
+                    <ShieldCheck size={12} />
+                    <span>Secure Direct Transaction</span>
                   </div>
-                  
-                  <div className="space-y-4">
-                    <input 
-                      required
-                      type="text"
-                      placeholder="Your Full Name"
-                      value={leadData.name}
-                      onChange={(e) => setLeadData({...leadData, name: e.target.value})}
-                      className="w-full bg-white/5 border border-white/10 px-5 py-4 text-xs font-bold text-white outline-none focus:border-cyan-500 transition-all"
-                    />
-                    <input 
-                      required
-                      type="email"
-                      placeholder="Your Email Address"
-                      value={leadData.email}
-                      onChange={(e) => setLeadData({...leadData, email: e.target.value})}
-                      className="w-full bg-white/5 border border-white/10 px-5 py-4 text-xs font-bold text-white outline-none focus:border-cyan-500 transition-all"
-                    />
-                    <input 
-                      type="text"
-                      placeholder="WhatsApp Number (Optional)"
-                      value={leadData.whatsapp}
-                      onChange={(e) => setLeadData({...leadData, whatsapp: e.target.value})}
-                      className="w-full bg-white/5 border border-white/10 px-5 py-4 text-xs font-bold text-white outline-none focus:border-cyan-500 transition-all"
-                    />
-                  </div>
+                </div>
 
-                  <button 
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-cyan-500 text-black py-5 font-black uppercase tracking-widest text-[11px] hover:bg-white transition-all shadow-xl shadow-cyan-500/10 disabled:opacity-50"
+                <div className="grid grid-cols-1 gap-4">
+                  <a 
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between bg-[#25D366] text-white p-5 hover:brightness-110 transition-all group shadow-lg shadow-emerald-100"
                   >
-                    {isSubmitting ? 'Registering Intent...' : 'Continue to Purchase'}
-                  </button>
-                </form>
-              ) : (
-                <>
-                  <div className="text-center space-y-2 mb-8">
-                    <p className="text-sm font-bold text-slate-400 uppercase tracking-tight">Contact support to complete purchase</p>
-                    <div className="flex items-center justify-center space-x-2 text-[10px] font-black text-emerald-500 uppercase tracking-widest">
-                      <ShieldCheck size={12} />
-                      <span>Secure Direct Transaction</span>
+                    <div className="flex items-center space-x-4">
+                      <MessageCircle size={24} />
+                      <div className="text-left">
+                        <div className="text-[10px] font-black uppercase tracking-widest opacity-80">WhatsApp</div>
+                        <div className="text-sm font-black uppercase tracking-widest">Chat with Agent</div>
+                      </div>
                     </div>
-                  </div>
+                    <Zap size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </a>
 
-              <div className="grid grid-cols-1 gap-4">
-                <a 
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between bg-[#25D366] text-white p-5 hover:brightness-110 transition-all group shadow-lg shadow-emerald-100"
-                >
-                  <div className="flex items-center space-x-4">
-                    <MessageCircle size={24} />
-                    <div className="text-left">
-                      <div className="text-[10px] font-black uppercase tracking-widest opacity-80">WhatsApp</div>
-                      <div className="text-sm font-black uppercase tracking-widest">Chat with Agent</div>
+                  <a 
+                    href={telegramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between bg-[#0088cc] text-white p-5 hover:brightness-110 transition-all group shadow-lg shadow-blue-100"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <Send size={24} />
+                      <div className="text-left">
+                        <div className="text-[10px] font-black uppercase tracking-widest opacity-80">Telegram</div>
+                        <div className="text-sm font-black uppercase tracking-widest">Join Support Group</div>
+                      </div>
                     </div>
-                  </div>
-                  <Zap size={18} className="group-hover:translate-x-1 transition-transform" />
-                </a>
+                    <Zap size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </div>
 
-                <a 
-                  href={telegramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between bg-[#0088cc] text-white p-5 hover:brightness-110 transition-all group shadow-lg shadow-blue-100"
-                >
-                  <div className="flex items-center space-x-4">
-                    <Send size={24} />
-                    <div className="text-left">
-                      <div className="text-[10px] font-black uppercase tracking-widest opacity-80">Telegram</div>
-                      <div className="text-sm font-black uppercase tracking-widest">Join Support Group</div>
-                    </div>
-                  </div>
-                  <Zap size={18} className="group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-
-              <p className="text-[9px] text-center text-slate-500 font-bold uppercase tracking-widest pt-4">
-                Available 24/7 for instant delivery & licensing.
-              </p>
-            </>
-          )}
+                <p className="text-[9px] text-center text-slate-500 font-bold uppercase tracking-widest pt-4">
+                  Available 24/7 for instant delivery & licensing.
+                </p>
+              </>
         </div>
       </motion.div>
     </div>

@@ -18,7 +18,7 @@ const Header = () => {
   const location = useLocation();
   const [settings, setSettings] = useState({
     announcement: 'WELCOME TO MONEY PRINTING MARKET',
-    sitename: 'TRADEKITS',
+    sitename: 'Tarek Markets',
     whatsapp: '',
     telegram: ''
   });
@@ -73,11 +73,9 @@ const Header = () => {
       }`}>
         <div className="container mx-auto px-6 flex items-center justify-between">
           <Link to="/" className="flex items-center group">
-            <div className="w-8 h-8 bg-black dark:bg-white flex items-center justify-center mr-3 group-hover:rotate-12 transition-transform">
-               <span className="text-white dark:text-black font-black text-xs">{settings.sitename ? settings.sitename.charAt(0).toUpperCase() : 'T'}</span>
-            </div>
+            <img src="/logo.png" alt="Tarek Markets" className="h-6 w-auto max-h-6 shrink-0 object-contain mr-3 group-hover:scale-105 transition-transform" />
             <span className="text-2xl font-black font-heading tracking-tighter text-black dark:text-white uppercase">
-              {settings.sitename || 'TradeKit'}
+              {settings.sitename || 'Tarek Markets'}
             </span>
           </Link>
 

@@ -7,14 +7,24 @@ const authenticateAdmin = require('../middleware/auth');
 // @desc    Get dashboard stats (Admin)
 router.get('/stats', authenticateAdmin, async (req, res) => {
   try {
-    // In a real app, these would be complex queries
-    // For now, we fetch counts and sums
-    const { count: productsCount } = await supabase.from('products').select('*', { count: 'exact', head: true });
-    const { count: ordersCount } = await supabase.from('orders').select('*', { count: 'exact', head: true });
-    const { count: customersCount } = await supabase.from('customers').select('*', { count: 'exact', head: true });
-    
-    // Summing sales (mocking with a dummy calculation or fetching)
-    const { data: salesData } = await supabase.from('orders').select('amount').eq('status', 'Delivered');
+    // Execute all queries in parallel for maximum speed
+    const [
+      productsResult,
+      ordersResult,
+      customersResult,
+      salesResult
+    ] = await Promise.all([
+      supabase.from('products').select('*', { count: 'exact', head: true }),
+      supabase.from('orders').select('*', { count: 'exact', head: true }),
+      supabase.from('customers').select('*', { count: 'exact', head: true }),
+      supabase.from('orders').select('amount').eq('status', 'Delivered')
+    ]);
+
+    const productsCount = productsResult.count;
+    const ordersCount = ordersResult.count;
+    const customersCount = customersResult.count;
+    const salesData = salesResult.data;
+
     const totalSales = salesData?.reduce((acc, curr) => acc + curr.amount, 0) || 0;
 
     res.json({

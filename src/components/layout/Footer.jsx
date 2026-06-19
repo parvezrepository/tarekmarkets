@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Cpu, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 
 const Footer = () => {
-  const [settings, setSettings] = React.useState({ sitename: 'TradeKit', homepage_settings: null });
+  const [settings, setSettings] = React.useState({ sitename: 'Tarek Markets', homepage_settings: null });
   
   React.useEffect(() => {
     fetch(import.meta.env.VITE_API_URL + '/settings')
@@ -31,16 +31,14 @@ const Footer = () => {
           {/* Logo & Sales Focus */}
           <div className="text-center md:text-left space-y-4">
             <Link to="/" className="flex items-center justify-center md:justify-start space-x-3">
-              <div className="w-10 h-10 bg-accent-cyan rounded-xl flex items-center justify-center">
-                <Cpu className="text-primary-dark" size={24} />
-              </div>
+              <img src="/logo.png" alt="Tarek Markets" className="h-6 w-auto max-h-6 shrink-0 object-contain" />
               <span className="text-2xl font-bold font-heading text-white">
-                {settings.sitename || 'TradeKit'}
+                {settings.sitename || 'Tarek Markets'}
               </span>
             </Link>
             {hp.footer_text?.show !== false && (
               <p className={`text-slate-500 max-w-sm font-medium ${hp.footer_text?.size || 'text-sm'}`}>
-                {hp.footer_text?.text || 'Your premium destination for trading automation and digital assets.'}
+                {hp.footer_text?.text || 'Your premium destination for trading courses.'}
               </p>
             )}
           </div>
@@ -72,7 +70,7 @@ const Footer = () => {
         <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           {hp.footer_copyright?.show !== false && (
             <p className={`text-slate-500 font-bold uppercase tracking-widest ${hp.footer_copyright?.size || 'text-xs'}`}>
-              {hp.footer_copyright?.text || '© 2026 TradeKit. All rights reserved.'}
+              {'© 2026 Tarek Markets. All rights reserved.'}
             </p>
           )}
           <div className="flex items-center space-x-8 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">

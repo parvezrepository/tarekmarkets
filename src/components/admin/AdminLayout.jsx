@@ -64,12 +64,10 @@ const AdminLayout = ({ children }) => {
         {/* Logo */}
         <div className="p-8 flex items-center justify-between border-b border-slate-50 dark:border-slate-800 flex-shrink-0">
           <Link to="/admin/dashboard" className={`flex items-center space-x-2 transition-all ${!isSidebarOpen && 'lg:justify-center w-full'}`}>
-            <div className="w-8 h-8 bg-black dark:bg-white rounded-none flex items-center justify-center">
-              <Zap className="text-white dark:text-black" size={16} />
-            </div>
+            <img src="/logo.png" alt="Admin" className="h-5 w-auto max-h-5 shrink-0 object-contain" />
             {isSidebarOpen && (
               <span className="text-sm font-black font-heading tracking-tighter text-black dark:text-white uppercase">
-                TradeKit<span className="text-violet-600">Admin</span>
+                Tarek <span className="text-violet-600">Markets</span>
               </span>
             )}
           </Link>

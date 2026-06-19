@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { products } from '../data/products';
+import { products as productsData } from '../data/products';
 import ProductCard from '../components/product/ProductCard';
 import { ProductCardSkeleton } from '../components/shared/Skeleton';
 import { Link } from 'react-router-dom';
@@ -49,8 +49,8 @@ const Home = () => {
     loaded: false,
     homepage_settings: {
       hero_badge: { text: 'TRADERVAULT', show: true },
-      hero_title: { text: 'TRADE WITH SMART TOOLS', show: true },
-      hero_subtitle: { text: 'Unlock professional-grade automation and indicators. Trusted by thousands.', show: true },
+      hero_title: { text: 'MASTER THE MARKETS', show: true },
+      hero_subtitle: { text: 'Unlock professional-grade trading courses. Trusted by thousands.', show: true },
       hero_btn1: { text: 'EXPLORE MARKETPLACE', show: true },
       hero_btn2: { text: 'JOIN COMMUNITY', show: true }
     }
@@ -94,15 +94,22 @@ const Home = () => {
     'Anisur Rahman', 'Afreen Jahan', 'Mahfuz Rahman', 'Anjum Ara'
   ];
   
-  const fallbackItems = ['Forex Auto Bot', 'News Filter EA', 'Gold Scalper', 'Trend Master'];
+  const fallbackItems = ['Binary Trading Course', 'Forex Trading Course', 'Crypto Trading Course'];
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
         const data = await response.json();
-        setProducts(data);
-      } catch (err) { console.error(err); }
+        if (data && data.length > 0 && !data.message) {
+          setProducts(data);
+        } else {
+          setProducts(productsData);
+        }
+      } catch (err) { 
+        console.error(err); 
+        setProducts(productsData);
+      }
       finally { setLoading(false); }
     };
 
@@ -169,7 +176,7 @@ const Home = () => {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative bg-[#0a0a0a] rounded-none p-10 md:p-16 overflow-hidden text-center"
+            className="relative bg-[#0a0a0a] rounded-none py-8 md:py-12 px-6 overflow-hidden text-center"
           >
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] aspect-square bg-violet-600/10 blur-[100px] rounded-full pointer-events-none" />
             
@@ -184,20 +191,20 @@ const Home = () => {
               </div>
               
               {hp.hero_title?.show !== false && (
-                <h1 className={`font-black font-heading text-white leading-[1.1] mb-6 tracking-tighter uppercase ${hp.hero_title?.size || 'text-3xl sm:text-4xl md:text-6xl'}`}>
-                  {hp.hero_title?.text || 'Trade with Precision.'}
+                <h1 className={`font-black font-heading text-white leading-[1.1] mb-4 tracking-tighter uppercase ${hp.hero_title?.size || 'text-3xl sm:text-4xl md:text-5xl'}`}>
+                  {hp.hero_title?.text || 'Master Trading.'}
                 </h1>
               )}
               {hp.hero_subtitle?.show !== false && (
-                <p className={`text-slate-400 font-medium mb-8 max-w-2xl mx-auto leading-relaxed ${hp.hero_subtitle?.size || 'text-sm md:text-base'}`}>
-                  {hp.hero_subtitle?.text || 'Unlock professional-grade automation and indicators. Trusted by thousands.'}
+                <p className={`text-slate-400 font-medium mb-6 max-w-2xl mx-auto leading-relaxed ${hp.hero_subtitle?.size || 'text-sm md:text-base'}`}>
+                  {hp.hero_subtitle?.text || 'Unlock professional-grade trading courses. Trusted by thousands.'}
                 </p>
               )}
               
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 {hp.hero_btn1?.show !== false && (
                   <Link to="/shop" className={`bg-white text-black px-8 py-4 font-black uppercase tracking-widest hover:bg-violet-500 hover:text-white transition-all text-center ${hp.hero_btn1?.size || 'text-[10px] sm:text-[9px]'}`}>
-                     {hp.hero_btn1?.text || 'Explore Marketplace'}
+                     {hp.hero_btn1?.text || 'Explore Courses'}
                   </Link>
                 )}
                 {hp.hero_btn2?.show !== false && (
@@ -222,12 +229,12 @@ const Home = () => {
               {hp.popular_badge?.show !== false && (
                 <div className={`font-black text-violet-600 uppercase tracking-widest mb-2 flex items-center justify-center md:justify-start ${hp.popular_badge?.size || 'text-[9px]'}`}>
                    <div className="w-8 h-px bg-violet-600 mr-3" />
-                   {hp.popular_badge?.text || 'Premium Selection'}
+                   {hp.popular_badge?.text || 'Premium Courses'}
                 </div>
               )}
               {hp.popular_title?.show !== false && (
                 <h2 className={`font-black font-heading text-black dark:text-white uppercase tracking-tighter ${hp.popular_title?.size || 'text-3xl'}`}>
-                  {hp.popular_title?.text || 'Most Popular Assets'}
+                  {hp.popular_title?.text || 'Most Popular Courses'}
                 </h2>
               )}
             </div>
@@ -283,7 +290,7 @@ const Home = () => {
                 to="/shop" 
                 className="group flex items-center space-x-3 bg-[#0a0a0a] border border-cyan-500/30 px-10 py-5 font-black uppercase tracking-widest text-[11px] text-white hover:bg-cyan-500 hover:text-black hover:shadow-xl hover:shadow-cyan-500/20 transition-all"
               >
-                <span>Show All Products</span>
+                <span>Show All Courses</span>
                 <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
