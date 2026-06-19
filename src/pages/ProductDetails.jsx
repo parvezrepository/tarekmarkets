@@ -230,7 +230,7 @@ const ProductDetails = () => {
         </div>
 
         {/* Features Grid */}
-        {product.features?.filter(f => !f.is_html_details)?.length > 0 && (
+        {false && product.features?.filter(f => !f.is_html_details)?.length > 0 && (
           <div className="space-y-16 mb-32">
             <div className="flex items-center space-x-6">
               <h2 className="text-3xl font-black uppercase tracking-tighter">Features</h2>
