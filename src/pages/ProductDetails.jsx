@@ -270,7 +270,7 @@ const ProductDetails = () => {
           <div className="mb-32 w-full">
             <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 md:p-8 max-h-[85vh] overflow-y-auto overflow-x-auto custom-scrollbar w-full">
               <div 
-                className="prose prose-invert prose-cyan max-w-none w-full prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight prose-a:text-cyan-500 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                className="prose prose-invert prose-cyan max-w-none w-full prose-img:rounded-xl prose-img:border prose-img:border-white/10 prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight prose-a:text-cyan-500 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 max-md:[&_nav]:!hidden"
                 dangerouslySetInnerHTML={{ __html: product.features.find(f => f.is_html_details).content }} 
               />
             </div>
