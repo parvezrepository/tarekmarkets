@@ -10,10 +10,10 @@ router.get('/', async (req, res) => {
     const { data, error } = await supabase
       .from('settings')
       .select('*')
-      .single();
+      .limit(1);
 
-    if (error && error.code !== 'PGRST116') throw error; // PGRST116 is 'no rows returned'
-    res.json(data || {});
+    if (error) throw error;
+    res.json(data && data.length > 0 ? data[0] : {});
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -24,7 +24,8 @@ router.get('/', async (req, res) => {
 router.post('/', authenticateAdmin, async (req, res) => {
   try {
     // Check if settings already exist
-    const { data: existing } = await supabase.from('settings').select('id').single();
+    const { data: existingArray } = await supabase.from('settings').select('id').limit(1);
+    const existing = existingArray && existingArray.length > 0 ? existingArray[0] : null;
 
     let result;
     if (existing) {

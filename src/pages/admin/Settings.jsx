@@ -80,9 +80,13 @@ const Settings = () => {
       
       if (response.ok) {
         alert('Settings synced successfully!');
+      } else {
+        const errData = await response.json();
+        alert(`Failed to sync settings: ${errData.message || 'Unknown error'}`);
       }
     } catch (err) {
       console.error('Save error:', err);
+      alert('Network error while saving settings.');
     } finally {
       setSaving(false);
     }
