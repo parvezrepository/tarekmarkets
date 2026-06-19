@@ -248,6 +248,9 @@ const Settings = () => {
                       className="w-full bg-white border border-slate-200 px-4 py-3 text-xs font-bold outline-none focus:border-black transition-all text-black" 
                       placeholder="https://..."
                     />
+                    {t.image?.includes('ibb.co') && !t.image?.match(/\.(jpeg|jpg|gif|png|webp)$/i) && (
+                      <p className="text-rose-500 text-[10px] font-bold">⚠️ For ImgBB, please paste the "Direct Link" (ends in .png or .jpg).</p>
+                    )}
                   </div>
                   <button 
                     onClick={() => removeTestimonial(i)}

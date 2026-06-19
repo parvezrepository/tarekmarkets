@@ -530,6 +530,9 @@ const Products = () => {
                         placeholder="Or paste image URL here..."
                         className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-6 py-4 text-sm font-bold outline-none focus:border-black dark:focus:border-white transition-all text-black dark:text-white" 
                       />
+                      {formData.image?.includes('ibb.co') && !formData.image?.match(/\.(jpeg|jpg|gif|png|webp)$/i) && (
+                        <p className="text-rose-500 text-[10px] font-bold">⚠️ For ImgBB, please paste the "Direct Link" (must end in .png or .jpg).</p>
+                      )}
                     </div>
                   </div>
                   <div className="space-y-3">
