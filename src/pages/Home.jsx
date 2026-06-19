@@ -110,7 +110,6 @@ const Home = () => {
         console.error(err); 
         setProducts(productsData);
       }
-      finally { setLoading(false); }
     };
 
     const fetchSettings = async () => {
@@ -122,11 +121,19 @@ const Home = () => {
         } else {
           setSettings(prev => ({ ...prev, loaded: true }));
         }
-      } catch (err) { console.error(err); }
+      } catch (err) { 
+        console.error(err); 
+        setSettings(prev => ({ ...prev, loaded: true }));
+      }
     };
 
-    fetchProducts();
-    fetchSettings();
+    const init = async () => {
+      setLoading(true);
+      await Promise.all([fetchProducts(), fetchSettings()]);
+      setLoading(false);
+    };
+
+    init();
 
     const interval = setInterval(() => {
       const randomBuyer = buyers[Math.floor(Math.random() * buyers.length)];
