@@ -188,14 +188,14 @@ const Home = () => {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] aspect-square bg-violet-600/10 blur-[100px] rounded-full pointer-events-none" />
             
             <div className="relative z-10 max-w-4xl mx-auto">
-              <div className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-none mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-ping" />
-                {hp.hero_badge?.show !== false && (
+              {hp.hero_badge?.show !== false && (
+                <div className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-none mb-4">
+                  <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-ping" />
                   <span className={`font-black text-white uppercase tracking-[0.3em] ${hp.hero_badge?.size || 'text-[8px]'}`}>
                     {hp.hero_badge?.text || 'System Status: Operational'}
                   </span>
-                )}
-              </div>
+                </div>
+              )}
               
               {hp.hero_title?.show !== false && (
                 <h1 className={`font-black font-heading text-white leading-[1.1] mb-4 tracking-tighter uppercase ${hp.hero_title?.size || 'text-3xl sm:text-4xl md:text-5xl'}`}>
