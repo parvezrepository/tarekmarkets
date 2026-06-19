@@ -106,11 +106,11 @@ const ProductDetails = () => {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="relative w-full max-w-sm lg:max-w-md mx-auto"
+            className="relative w-full max-w-lg mx-auto"
           >
             <div className="absolute -inset-4 bg-cyan-500/20 blur-[80px] rounded-full" />
-            <div className="relative aspect-square bg-[#0a0a0a] border border-white/10 p-6 md:p-8 shadow-2xl">
-              <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+            <div className="relative w-full bg-[#0a0a0a] border border-white/10 p-2 shadow-2xl rounded-2xl">
+              <img src={product.image} alt={product.name} className="w-full aspect-video object-cover rounded-xl" />
             </div>
           </motion.div>
 
