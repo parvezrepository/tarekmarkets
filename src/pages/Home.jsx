@@ -16,7 +16,8 @@ import {
   ShieldCheck,
   Zap,
   HelpCircle,
-  X
+  X,
+  Loader2
 } from 'lucide-react';
 import BuyModal from '../components/shared/BuyModal';
 
@@ -174,6 +175,14 @@ const Home = () => {
   };
 
   const hp = settings.homepage_settings || {};
+
+  if (loading) {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center bg-[#020202]">
+        <Loader2 className="animate-spin text-violet-600" size={40} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
